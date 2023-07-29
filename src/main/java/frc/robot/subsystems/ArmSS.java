@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 
-import frc.robot.Constants;
+import frc.robot.Constants.PneumaticConstants;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSS extends SubsystemBase{
     
-    DoubleSolenoid armDoublePH = new DoubleSolenoid(50, PneumaticsModuleType.REVPH, 4, 3);
+    DoubleSolenoid armDoublePH = new DoubleSolenoid(PneumaticConstants.SOLENOID_ID, PneumaticsModuleType.REVPH, PneumaticConstants.OUT_CHANNEL, PneumaticConstants.IN_CHANNEL);
 
     public enum Mode{
       In,
@@ -24,7 +24,8 @@ public class ArmSS extends SubsystemBase{
 
     Mode ArmMode = Mode.In;
 
-    public Mode ArmMode(Mode ArmMode) {
+    @Override
+    public void periodic(){
         switch (ArmMode) {
             case In:
             armDoublePH.set(Value.kForward);
@@ -42,7 +43,7 @@ public class ArmSS extends SubsystemBase{
             }
 
         }
-        return ArmMode;
+
     }
 
 

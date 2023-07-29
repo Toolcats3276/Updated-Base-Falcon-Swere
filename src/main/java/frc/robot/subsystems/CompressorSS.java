@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 
-import frc.robot.Constants;
+import frc.robot.Constants.PneumaticConstants;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class CompressorSS extends SubsystemBase{
 
-    Compressor pcmCompressor = new Compressor(50, PneumaticsModuleType.REVPH);
+    Compressor pcmCompressor = new Compressor(PneumaticConstants.COMPRESSOT_ID, PneumaticsModuleType.REVPH);
 
     public enum Mode{
         Idle,
@@ -23,14 +23,15 @@ public class CompressorSS extends SubsystemBase{
       public void periodic(){
           switch (CompressorMode) {
             case Idle:
-            pcmCompressor.enableAnalog(0, 120);
+            pcmCompressor.enableAnalog(PneumaticConstants.MIN_IDLE_PRESSURE, PneumaticConstants.MAX_IDLE_PRESSURE);
 
             case Active:
-            pcmCompressor.enableAnalog(100, 120);
+            pcmCompressor.enableAnalog(PneumaticConstants.MIN_ACTIVE_PRESSURE,PneumaticConstants.MAX_ACTIVE_PRESSURE);
         }
 
+        SmartDashboard.putBoolean("compressor", pcmCompressor.isEnabled());
         SmartDashboard.putNumber("airPressure", pcmCompressor.getPressure());
-
+    
       }
 
 

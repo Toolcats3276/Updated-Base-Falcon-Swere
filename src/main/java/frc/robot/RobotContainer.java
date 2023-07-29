@@ -32,12 +32,14 @@ public class RobotContainer {
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton ActiveCompressor = new JoystickButton(m_flightStick,2);
     private final JoystickButton ArmOut = new JoystickButton(m_flightStick, 5);
     private final JoystickButton ArmIn = new JoystickButton(m_flightStick, 6);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
     private final ArmSS s_Arm = new ArmSS();
+    private final CompressorSS s_Compressor = new CompressorSS();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -68,6 +70,7 @@ public class RobotContainer {
 
         ArmIn.onTrue(new InstantCommand(() -> s_Arm.In()));
         ArmOut.onTrue(new InstantCommand(() -> s_Arm.Out()));
+        ActiveCompressor.onTrue(new InstantCommand(() -> s_Compressor.Active()));
     }
 
     /**

@@ -13,6 +13,20 @@ import frc.lib.util.SwerveModuleConstants;
 public final class Constants {
     public static final double stickDeadband = 0.1;
 
+    public static final class PneumaticConstants {
+
+        public static final int COMPRESSOT_ID = 50;
+        public static final int SOLENOID_ID = 50;
+
+        public static final int MIN_IDLE_PRESSURE = 0;
+        public static final int MAX_IDLE_PRESSURE = 120;
+        public static final int MIN_ACTIVE_PRESSURE = 100;
+        public static final int MAX_ACTIVE_PRESSURE = 120;
+
+        public static final int IN_CHANNEL = 3;
+        public static final int OUT_CHANNEL = 4;
+    }
+
     public static final class Swerve {
         public static final int pigeonID = 1;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
