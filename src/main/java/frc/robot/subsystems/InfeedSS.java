@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 import frc.robot.Constants.InfeedSpeed;
+import frc.robot.subsystems.StateMemory.*;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -10,6 +11,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,21 +19,26 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.*;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import edu.wpi.first.wpilibj.Timer;
+
 
 
 public class InfeedSS extends SubsystemBase {
 
 
     private final TalonFX m_infeedMotor = new TalonFX(16);
+    private final DigitalInput Sensor = new DigitalInput(0);
+    private final Timer sensor_Timer = new Timer();
 
-    
+
 
     public enum Mode{
         Comp,
         ConeIn,
         ConeOut,
         CubeIn,
-        CubeOut;
+        CubeOut,
+        Kill;
     }
 
     Mode InfeedMode = Mode.Comp;
@@ -54,7 +61,9 @@ public class InfeedSS extends SubsystemBase {
 
             case CubeOut:
                 m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedSpeed.CubeOut);
-         
+
+            case Kill:
+                m_infeedMotor.set(TalonFXControlMode.PercentOutput,InfeedSpeed.Kill);       
         }
         
         return InfeedMode;
@@ -81,6 +90,10 @@ public void CubeIn(){
 public void CubeOut(){
     InfeedMode = Mode.CubeOut;
 
+}
+
+public void Kill(){
+    InfeedMode = Mode.Kill;
 }
 
 }

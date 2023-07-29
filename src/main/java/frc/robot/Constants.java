@@ -21,9 +21,7 @@ public final class Constants {
         public static final double ConeOut = 0.5;
         public static final double CubeIn = 0.35;
         public static final double CubeOut = -1.00;
-        
-
-        
+        public static final double Kill = 0.00;
     }
 
     public static final class Swerve {
