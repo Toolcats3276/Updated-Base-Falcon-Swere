@@ -30,8 +30,8 @@ public class RobotContainer {
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(m_driveController, 0);
-    private final JoystickButton robotCentric = new JoystickButton(m_driveController, 1);
+    private final JoystickButton zeroGyro = new JoystickButton(m_driveController, 2);
+    private final JoystickButton robotCentric = new JoystickButton(m_driveController, 16);
     private final JoystickButton ConeIn = new JoystickButton(m_driveController, 7);
 
     /* Subsystems */
@@ -44,9 +44,9 @@ public class RobotContainer {
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
-                () -> -driver.getRawAxis(translationAxis), 
-                () -> -driver.getRawAxis(strafeAxis), 
-                () -> -driver.getRawAxis(rotationAxis), 
+                () -> -m_driveController.getRawAxis(translationAxis), 
+                () -> -m_driveController.getRawAxis(strafeAxis), 
+                () -> -m_driveController.getRawAxis(rotationAxis), 
                 () -> robotCentric.getAsBoolean()
             )
         );
@@ -62,7 +62,7 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        /* Driver Buttons */
+        /* Drive Controller Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
         ConeIn.onTrue (new InstantCommand(() -> s_Infeed.ConeIn()));

@@ -19,8 +19,7 @@ public class InfeedSS extends SubsystemBase {
 
 
     private final TalonFX m_infeedMotor = new TalonFX(16);
-    private final DigitalInput Sensor = new DigitalInput(0);
-    private final Timer sensor_Timer = new Timer();
+  
 
 
 
