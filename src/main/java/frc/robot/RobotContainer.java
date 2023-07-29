@@ -21,7 +21,6 @@ public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
 
-    private final Joystick m_drivController = new Joystick(0);
     private final Joystick m_flightStick = new Joystick(1);
 
 
@@ -68,6 +67,7 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
         ArmIn.onTrue(new InstantCommand(() -> s_Arm.In()));
+        ArmOut.onTrue(new InstantCommand(() -> s_Arm.Out()));
     }
 
     /**
