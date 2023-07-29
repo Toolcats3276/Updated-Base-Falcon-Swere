@@ -19,16 +19,17 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
     /* Controllers */
-    private final Joystick driver = new Joystick(0);
+    // private final Joystick m_DriveController = new Joystick(0);
+    private final Joystick m_DriveController = new Joystick(0);
 
     /* Drive Controls */
-    private final int translationAxis = XboxController.Axis.kLeftY.value;
-    private final int strafeAxis = XboxController.Axis.kLeftX.value;
-    private final int rotationAxis = XboxController.Axis.kRightX.value;
+    private final int translationAxis = Joystick.AxisType.kY.value;
+    private final int strafeAxis = Joystick.AxisType.kX.value;
+    private final int rotationAxis = Joystick.AxisType.kZ.value;
 
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
-    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton zeroGyro = new JoystickButton(m_DriveController, 2);
+    private final JoystickButton robotCentric = new JoystickButton(m_DriveController, 16);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -39,9 +40,9 @@ public class RobotContainer {
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
-                () -> -driver.getRawAxis(translationAxis), 
-                () -> -driver.getRawAxis(strafeAxis), 
-                () -> -driver.getRawAxis(rotationAxis), 
+                () -> Math.pow(m_DriveController.getRawAxis(translationAxis), 1)/2,
+                () -> Math.pow(m_DriveController.getRawAxis(strafeAxis), 1)/2, 
+                () -> Math.pow(m_DriveController.getRawAxis(rotationAxis), 1)/2, 
                 () -> robotCentric.getAsBoolean()
             )
         );
