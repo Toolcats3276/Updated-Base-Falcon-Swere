@@ -35,7 +35,7 @@ public class InfeedSS extends SubsystemBase {
         Kill;
     }
 
-    State InfeedState = State.Comp;
+    State InfeedState = State.Kill;
     
     @Override
 

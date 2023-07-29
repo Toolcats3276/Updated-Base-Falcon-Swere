@@ -31,7 +31,13 @@ public class RobotContainer {
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(m_driveController, 2);
     private final JoystickButton robotCentric = new JoystickButton(m_driveController, 16);
+    
+    private final JoystickButton Comp = new JoystickButton(m_driveController, 2);
     private final JoystickButton ConeIn = new JoystickButton(m_driveController, 7);
+    private final JoystickButton ConeOut = new JoystickButton(m_driveController, 3);
+    private final JoystickButton CubeIn = new JoystickButton(m_driveController, 6);
+    private final JoystickButton CubeOut = new JoystickButton(m_driveController, 10);
+    private final JoystickButton Kill = new JoystickButton(m_driveController, 5);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -64,7 +70,13 @@ public class RobotContainer {
         /* Drive Controller Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
+        //temporary controls for each motor speed
+        Comp.onTrue (new InstantCommand(() -> s_Infeed.Comp()));
         ConeIn.onTrue (new InstantCommand(() -> s_Infeed.ConeIn()));
+        ConeOut.onTrue (new InstantCommand(() -> s_Infeed.ConeOut()));
+        CubeIn.onTrue (new InstantCommand(() -> s_Infeed.CubeIn()));
+        CubeOut.onTrue (new InstantCommand(() -> s_Infeed.CubeOut()));
+        Kill.onTrue (new InstantCommand(() -> s_Infeed.Kill()));
     }
 
     /**
