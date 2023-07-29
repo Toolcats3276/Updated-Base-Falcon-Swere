@@ -20,10 +20,13 @@ public class InfeedSS extends SubsystemBase {
 
     private final TalonFX m_infeedMotor = new TalonFX(16);
   
+    public void Infeed()
+    {
+
+    }
 
 
-
-    public enum Mode{
+    public enum State{
         Comp,
         ConeIn,
         ConeOut,
@@ -32,59 +35,69 @@ public class InfeedSS extends SubsystemBase {
         Kill;
     }
 
-    Mode InfeedMode = Mode.Comp;
+    State InfeedState = State.Comp;
     
-    
+    @Override
 
-    public Mode InfeedMode(Mode InfeedMode) {
-        switch (InfeedMode) {
+    public void periodic() {
+        switch(InfeedState) {
             case Comp:
                 m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedSpeed.Comp);
+                break;
 
             case ConeIn:
                 m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedSpeed.ConeIn);
+                System.out.println("Cone is Infeeding");
+                break;
+
 
             case ConeOut:
                 m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedSpeed.ConeOut);
+                break;
+
 
             case CubeIn:
                 m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedSpeed.CubeIn);
+                break;
+
 
             case CubeOut:
                 m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedSpeed.CubeOut);
+                break;
+
 
             case Kill:
-                m_infeedMotor.set(TalonFXControlMode.PercentOutput,InfeedSpeed.Kill);       
+                m_infeedMotor.set(TalonFXControlMode.PercentOutput,InfeedSpeed.Kill);
+                break;
         }
-        
-        return InfeedMode;
-}
+    }
 
 public void Comp(){
-    InfeedMode = Mode.Comp;
+    InfeedState = State.Comp;
 }
 
 public void ConeIn(){
-    InfeedMode = Mode.ConeIn;
+    InfeedState = State.ConeIn;
+    System.out.println("State is ConeIn");
 }
 
 public void ConeOut(){
-    InfeedMode = Mode.ConeOut;
+    InfeedState = State.ConeOut;
 
 }
 
 public void CubeIn(){
-    InfeedMode = Mode.CubeIn;
+    InfeedState = State.CubeIn;
 
 }
 
 public void CubeOut(){
-    InfeedMode = Mode.CubeOut;
+    InfeedState = State.CubeOut;
 
 }
 
 public void Kill(){
-    InfeedMode = Mode.Kill;
+    InfeedState = State.Kill;
 }
 
 }

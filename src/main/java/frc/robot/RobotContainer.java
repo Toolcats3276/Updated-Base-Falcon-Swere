@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import pabeles.concurrency.ConcurrencyOps.NewInstance;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -25,9 +24,9 @@ public class RobotContainer {
 
 
     /* Drive Controls */
-    private final int translationAxis = XboxController.Axis.kLeftY.value;
-    private final int strafeAxis = XboxController.Axis.kLeftX.value;
-    private final int rotationAxis = XboxController.Axis.kRightX.value;
+    private final int translationAxis = Joystick.AxisType.kY.value;
+    private final int strafeAxis = Joystick.AxisType.kX.value;
+    private final int rotationAxis = Joystick.AxisType.kZ.value;
 
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(m_driveController, 2);
@@ -66,7 +65,6 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
         ConeIn.onTrue (new InstantCommand(() -> s_Infeed.ConeIn()));
-
     }
 
     /**
