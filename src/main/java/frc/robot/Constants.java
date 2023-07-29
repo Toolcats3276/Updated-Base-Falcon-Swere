@@ -13,6 +13,19 @@ import frc.lib.util.SwerveModuleConstants;
 public final class Constants {
     public static final double stickDeadband = 0.00005;
 
+
+    //infeed motor speeds
+    public static final class InfeedSpeed{
+        public static final double Comp = 0.00;
+        public static final double ConeIn = -0.75;
+        public static final double ConeOut = 0.5;
+        public static final double CubeIn = 0.35;
+        public static final double CubeOut = -1.00;
+        
+
+        
+    }
+
     public static final class Swerve {
         public static final int pigeonID = 10;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
@@ -145,4 +158,6 @@ public final class Constants {
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
     }
+
+
 }
