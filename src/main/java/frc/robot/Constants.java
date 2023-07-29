@@ -15,13 +15,16 @@ public final class Constants {
 
 
     //infeed motor speeds
-    public static final class InfeedSpeed{
-        public static final double Comp = 0.00;
-        public static final double ConeIn = -0.75;
-        public static final double ConeOut = 0.5;
-        public static final double CubeIn = 0.35;
-        public static final double CubeOut = -1.00;
-        public static final double Kill = 0.00;
+    public static final class InfeedConstants{
+
+        public static final int INFEED_MOTOR_ID = 16;
+
+        public static final double COMP = 0.00;
+        public static final double CONE_IN = -0.75;
+        public static final double CONE_OUT = 0.5;
+        public static final double CUBE_IN = 0.35;
+        public static final double CUBE_OUT = -1.00;
+        public static final double KILL = 0.00;
     }
 
     public static final class Swerve {

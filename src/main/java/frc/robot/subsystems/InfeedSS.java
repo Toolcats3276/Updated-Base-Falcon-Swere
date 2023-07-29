@@ -1,24 +1,20 @@
 package frc.robot.subsystems;
 //hi
 
-import frc.robot.Constants.InfeedSpeed;
+import frc.robot.Constants.InfeedConstants;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import com.ctre.phoenix.*;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import edu.wpi.first.wpilibj.Timer;
 
 
 
 public class InfeedSS extends SubsystemBase {
 
 
-    private final TalonFX m_infeedMotor = new TalonFX(16);
+    private final TalonFX m_infeedMotor = new TalonFX(InfeedConstants.INFEED_MOTOR_ID);
   
     public void Infeed()
     {
@@ -42,34 +38,36 @@ public class InfeedSS extends SubsystemBase {
     public void periodic() {
         switch(InfeedState) {
             case Comp:
-                m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedSpeed.Comp);
+                m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedConstants.COMP);
                 break;
 
             case ConeIn:
-                m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedSpeed.ConeIn);
+                m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedConstants.CONE_IN);
                 System.out.println("Cone is Infeeding");
                 break;
 
 
             case ConeOut:
-                m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedSpeed.ConeOut);
+                m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedConstants.CONE_OUT);
                 break;
 
 
             case CubeIn:
-                m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedSpeed.CubeIn);
+                m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedConstants.CUBE_IN);
                 break;
 
 
             case CubeOut:
-                m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedSpeed.CubeOut);
+                m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedConstants.CUBE_OUT);
                 break;
 
 
             case Kill:
-                m_infeedMotor.set(TalonFXControlMode.PercentOutput,InfeedSpeed.Kill);
+                m_infeedMotor.set(TalonFXControlMode.PercentOutput,InfeedConstants.KILL);
                 break;
         }
+
+        SmartDashboard.getNumber("InfeedSpeed",m_infeedMotor.getMotorOutputPercent());
     }
 
 public void Comp(){
