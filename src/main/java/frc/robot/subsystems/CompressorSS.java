@@ -22,11 +22,11 @@ public class CompressorSS extends SubsystemBase{
       @Override
       public void periodic(){
           switch (CompressorMode) {
-            case Idle:
-            pcmCompressor.enableAnalog(PneumaticConstants.MIN_IDLE_PRESSURE, PneumaticConstants.MAX_IDLE_PRESSURE);
+            case Idle:{
+            pcmCompressor.enableAnalog(PneumaticConstants.MIN_IDLE_PRESSURE, PneumaticConstants.MAX_IDLE_PRESSURE);}
 
-            case Active:
-            pcmCompressor.enableAnalog(PneumaticConstants.MIN_ACTIVE_PRESSURE,PneumaticConstants.MAX_ACTIVE_PRESSURE);
+            case Active:{
+            pcmCompressor.enableAnalog(PneumaticConstants.MIN_ACTIVE_PRESSURE,PneumaticConstants.MAX_ACTIVE_PRESSURE);}
         }
 
         SmartDashboard.putBoolean("compressor", pcmCompressor.isEnabled());

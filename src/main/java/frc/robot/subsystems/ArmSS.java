@@ -27,19 +27,20 @@ public class ArmSS extends SubsystemBase{
     @Override
     public void periodic(){
         switch (ArmMode) {
-            case In:
-            armDoublePH.set(Value.kForward);
+            case In:{
+            armDoublePH.set(Value.kForward);}
 
-            case Out:
-            armDoublePH.set(Value.kReverse);
+            case Out:{
+            armDoublePH.set(Value.kReverse);}
 
-            case Toggle:
+            case Toggle:{
             Value value = armDoublePH.get();
 
             if (value == Value.kForward) {
               armDoublePH.set(Value.kReverse);
             } else if (value == Value.kReverse) {
               armDoublePH.set(Value.kForward);
+            }
             }
 
         }
