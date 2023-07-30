@@ -22,6 +22,9 @@ public class RobotContainer {
     // private final Joystick m_DriveController = new Joystick(0);
     private final Joystick m_DriveController = new Joystick(0);
 
+    private final Joystick m_flightStick = new Joystick(1);
+
+
     /* Drive Controls */
     private final int translationAxis = Joystick.AxisType.kY.value;
     private final int strafeAxis = Joystick.AxisType.kX.value;
@@ -30,9 +33,18 @@ public class RobotContainer {
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(m_DriveController, 2);
     private final JoystickButton robotCentric = new JoystickButton(m_DriveController, 16);
+  
+    private final JoystickButton ActiveCompressor = new JoystickButton(m_flightStick,9);
+    private final JoystickButton ArmOut = new JoystickButton(m_flightStick, 5);
+    private final JoystickButton ArmIn = new JoystickButton(m_flightStick, 6);
+
+   
+
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
+    private final ArmSS s_Arm = new ArmSS();
+    private final CompressorSS s_Compressor = new CompressorSS();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -60,6 +72,11 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+
+        ArmIn.onTrue(new InstantCommand(() -> s_Arm.In()));
+        ArmOut.onTrue(new InstantCommand(() -> s_Arm.Out()));
+        ActiveCompressor.onTrue(new InstantCommand(() -> s_Compressor.Active()));
+        ActiveCompressor.onFalse(new InstantCommand(() -> s_Compressor.Idle()));
     }
 
     /**
@@ -72,3 +89,4 @@ public class RobotContainer {
         return new exampleAuto(s_Swerve);
     }
 }
+
