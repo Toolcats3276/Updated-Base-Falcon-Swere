@@ -32,7 +32,7 @@ public class RobotContainer {
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
-    private final JoystickButton ActiveCompressor = new JoystickButton(m_flightStick,2);
+    private final JoystickButton ActiveCompressor = new JoystickButton(m_flightStick,9);
     private final JoystickButton ArmOut = new JoystickButton(m_flightStick, 5);
     private final JoystickButton ArmIn = new JoystickButton(m_flightStick, 6);
 
@@ -71,6 +71,7 @@ public class RobotContainer {
         ArmIn.onTrue(new InstantCommand(() -> s_Arm.In()));
         ArmOut.onTrue(new InstantCommand(() -> s_Arm.Out()));
         ActiveCompressor.onTrue(new InstantCommand(() -> s_Compressor.Active()));
+        ActiveCompressor.onFalse(new InstantCommand(() -> s_Compressor.Idle()));
     }
 
     /**
@@ -83,3 +84,4 @@ public class RobotContainer {
         return new exampleAuto(s_Swerve);
     }
 }
+
