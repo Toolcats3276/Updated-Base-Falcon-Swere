@@ -12,23 +12,30 @@ public class CompressorSS extends SubsystemBase{
 
     Compressor pcmCompressor = new Compressor(PneumaticConstants.COMPRESSOT_ID, PneumaticsModuleType.REVPH);
 
-    public enum Mode{
+    public enum State{
         Idle,
         Active;
       }
   
-      Mode CompressorMode = Mode.Idle;
+      State CompressorState = State.Idle;
   
       @Override
+
       public void periodic(){
-          switch (CompressorMode) {
+          switch (CompressorState) {
             case Idle:{
-            pcmCompressor.enableAnalog(PneumaticConstants.MIN_IDLE_PRESSURE, PneumaticConstants.MAX_IDLE_PRESSURE);}
+            pcmCompressor.enableAnalog(0, PneumaticConstants.MAX_IDLE_PRESSURE);
+            System.out.println("Idle");
+            break;}
 
             case Active:{
-            pcmCompressor.enableAnalog(PneumaticConstants.MIN_ACTIVE_PRESSURE,PneumaticConstants.MAX_ACTIVE_PRESSURE);}
-        }
+            pcmCompressor.enableAnalog(PneumaticConstants.MIN_ACTIVE_PRESSURE,PneumaticConstants.MAX_ACTIVE_PRESSURE);
+            System.out.println("Active");}
+            break;
 
+        }
+ 
+            
         SmartDashboard.putBoolean("compressor", pcmCompressor.isEnabled());
         SmartDashboard.putNumber("airPressure", pcmCompressor.getPressure());
     
@@ -36,11 +43,14 @@ public class CompressorSS extends SubsystemBase{
 
 
       public void Idle(){
-        CompressorMode = Mode.Idle;
-      }
+        CompressorState = State.Idle;
+        System.out.println("Idle Mode");}
+
+      
       public void Active(){
-        CompressorMode = Mode.Active;
-      }
+        CompressorState = State.Active;
+        System.out.println("Active Mode");}
+      
 }
 
     
