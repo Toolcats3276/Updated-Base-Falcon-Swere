@@ -21,7 +21,6 @@ public class RobotContainer {
     /* Controllers */
     // private final Joystick m_DriveController = new Joystick(0);
     private final Joystick m_DriveController = new Joystick(0);
-
     private final Joystick m_flightStick = new Joystick(1);
 
 
@@ -84,8 +83,8 @@ public class RobotContainer {
 
         WristUp.onTrue(new InstantCommand(() -> s_Wrist.UpManual()));
         WristDown.whileTrue(new InstantCommand(() -> s_Wrist.DownManual()));
-        WristUp.onFalse(new InstantCommand(() -> s_Wrist.StopManual()));
-        WristUp.onFalse(new InstantCommand(() -> s_Wrist.StopManual()));
+        WristUp.whileFalse(new InstantCommand(() -> s_Wrist.StopManual()));
+        WristDown.whileFalse(new InstantCommand(() -> s_Wrist.StopManual()));
     }
 
     /**

@@ -24,7 +24,7 @@ public final class Constants {
 
     public static final class PneumaticConstants {
 
-        public static final int COMPRESSOT_ID = 50;
+        public static final int COMPRESSOR_ID = 50;
         public static final int SOLENOID_ID = 50;
 
         public static final int MIN_IDLE_PRESSURE = 0;
