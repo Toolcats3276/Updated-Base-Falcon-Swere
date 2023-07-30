@@ -14,6 +14,14 @@ import frc.lib.util.SwerveModuleConstants;
 public final class Constants {
     public static final double stickDeadband = 0.00005;
 
+    public static final class WristConstants {
+        public static final int WRIST_MOTOR_ID = 15;
+        public static final int WRIST_ENCODER_ID = 17;
+
+        public static final double MANUAL_WRIST_UP_SPEED = 0.25;
+        public static final double MANUAL_WRIST_DOWN_SPEED = -0.25;
+    }
+
     public static final class PneumaticConstants {
 
         public static final int COMPRESSOT_ID = 50;

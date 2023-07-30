@@ -38,6 +38,9 @@ public class RobotContainer {
     private final JoystickButton ArmOut = new JoystickButton(m_flightStick, 5);
     private final JoystickButton ArmIn = new JoystickButton(m_flightStick, 6);
 
+    private final JoystickButton WristUp = new JoystickButton(m_flightStick,3);
+    private final JoystickButton WristDown = new JoystickButton(m_flightStick,4);
+
    
 
 
@@ -45,6 +48,7 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     private final ArmSS s_Arm = new ArmSS();
     private final CompressorSS s_Compressor = new CompressorSS();
+    private final WristSS s_Wrist = new WristSS();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -77,6 +81,11 @@ public class RobotContainer {
         ArmOut.onTrue(new InstantCommand(() -> s_Arm.Out()));
         ActiveCompressor.onTrue(new InstantCommand(() -> s_Compressor.Active()));
         ActiveCompressor.onFalse(new InstantCommand(() -> s_Compressor.Idle()));
+
+        WristUp.onTrue(new InstantCommand(() -> s_Wrist.UpManual()));
+        WristDown.whileTrue(new InstantCommand(() -> s_Wrist.DownManual()));
+        WristUp.onFalse(new InstantCommand(() -> s_Wrist.StopManual()));
+        WristUp.onFalse(new InstantCommand(() -> s_Wrist.StopManual()));
     }
 
     /**
