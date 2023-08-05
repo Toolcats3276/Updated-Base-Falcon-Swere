@@ -1,11 +1,11 @@
 package frc.robot.subsystems;
-//hi
 
 import frc.robot.Constants.InfeedConstants;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
@@ -14,11 +14,12 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 public class InfeedSS extends SubsystemBase {
 
 
-    private final TalonFX m_infeedMotor = new TalonFX(InfeedConstants.INFEED_MOTOR_ID);
+    private TalonFX m_infeedMotor;
   
-    public void Infeed()
-    {
-
+    public InfeedSS(){
+            m_infeedMotor = new TalonFX(InfeedConstants.INFEED_MOTOR_ID);
+            m_infeedMotor.configFactoryDefault();
+            m_infeedMotor.setNeutralMode(NeutralMode.Brake);
     }
 
 
@@ -35,6 +36,8 @@ public class InfeedSS extends SubsystemBase {
     @Override
 
     public void periodic() {
+
+
         switch(InfeedState) {
             case Comp:
                 m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedConstants.COMP);
@@ -42,7 +45,6 @@ public class InfeedSS extends SubsystemBase {
 
             case ConeIn:
                 m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedConstants.CONE_IN);
-                System.out.println("Cone is Infeeding");
                 break;
 
 
@@ -70,7 +72,6 @@ public void Comp(){
 
 public void ConeIn(){
     InfeedState = State.ConeIn;
-    System.out.println("State is ConeIn");
 }
 
 public void ConeOut(){
