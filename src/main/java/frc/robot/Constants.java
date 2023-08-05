@@ -14,6 +14,20 @@ import frc.lib.util.SwerveModuleConstants;
 public final class Constants {
     public static final double stickDeadband = 0.00005;
 
+
+
+    //infeed motor speeds
+    public static final class InfeedConstants{
+
+        public static final int INFEED_MOTOR_ID = 16;
+
+        public static final double COMP = 0.00;
+        public static final double CONE_IN = -0.75;
+        public static final double CONE_OUT = 0.5;
+        public static final double CUBE_IN = 0.35;
+        public static final double CUBE_OUT = -1.00;
+        public static final double KILL = 0.00;
+
     public static final class WristConstants {
         public static final int WRIST_MOTOR_ID = 15;
         public static final int WRIST_ENCODER_ID = 17;
@@ -40,13 +54,14 @@ public final class Constants {
         public static final int pigeonID = 10;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
-        public static final COTSFalconSwerveConstants chosenModule =
+
+        public static final COTSFalconSwerveConstants chosenModule =  
             COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);
 
         /* Drivetrain Constants */
-        public static final double trackWidth = Units.inchesToMeters(22);
-        public static final double wheelBase = Units.inchesToMeters(22);
-        public static final double wheelCircumference = chosenModule.wheelCircumference;
+        public static final double trackWidth = Units.inchesToMeters(22); 
+        public static final double wheelBase = Units.inchesToMeters(22); 
+
 
         /* Swerve Kinematics 
          * No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve */
@@ -103,7 +118,8 @@ public final class Constants {
 
         /* Swerve Profiling Values */
         /** Meters per Second */
-        public static final double maxSpeed = 5; //TODO: This must be tuned to specific robot
+        public static final double maxSpeed = 5;
+
         /** Radians per Second */
         public static final double maxAngularVelocity = 12; //TODO: This must be tuned to specific robot
 
@@ -168,4 +184,6 @@ public final class Constants {
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
     }
+
+
 }
