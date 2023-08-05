@@ -1,5 +1,5 @@
 package frc.robot;
-
+//hi
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -23,6 +23,7 @@ public class RobotContainer {
     private final Joystick m_driveController = new Joystick(0);
 
 
+
     /* Drive Controls */
     private final int translationAxis = Joystick.AxisType.kY.value;
     private final int strafeAxis = Joystick.AxisType.kX.value;
@@ -38,20 +39,30 @@ public class RobotContainer {
     private final JoystickButton CubeIn = new JoystickButton(m_driveController, 6);
     private final JoystickButton CubeOut = new JoystickButton(m_driveController, 10);
     private final JoystickButton Kill = new JoystickButton(m_driveController, 5);
+  
+    private final JoystickButton ActiveCompressor = new JoystickButton(m_flightStick,9);
+    private final JoystickButton ArmOut = new JoystickButton(m_flightStick, 5);
+    private final JoystickButton ArmIn = new JoystickButton(m_flightStick, 6);
+
+    private final JoystickButton WristUp = new JoystickButton(m_flightStick,3);
+    private final JoystickButton WristDown = new JoystickButton(m_flightStick,4);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
     private final InfeedSS s_Infeed = new InfeedSS();
-
+    private final ArmSS s_Arm = new ArmSS();
+    private final CompressorSS s_Compressor = new CompressorSS();
+    private final WristSS s_Wrist = new WristSS();
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
-                () -> -m_driveController.getRawAxis(translationAxis), 
-                () -> -m_driveController.getRawAxis(strafeAxis), 
-                () -> -m_driveController.getRawAxis(rotationAxis), 
+
+                () -> Math.pow(m_DriveController.getRawAxis(translationAxis), 1)/2,
+                () -> Math.pow(m_DriveController.getRawAxis(strafeAxis), 1)/2, 
+                () -> Math.pow(m_DriveController.getRawAxis(rotationAxis), 1)/2, 
                 () -> robotCentric.getAsBoolean()
             )
         );
@@ -77,6 +88,18 @@ public class RobotContainer {
         CubeIn.onTrue (new InstantCommand(() -> s_Infeed.CubeIn()));
         CubeOut.onTrue (new InstantCommand(() -> s_Infeed.CubeOut()));
         Kill.onTrue (new InstantCommand(() -> s_Infeed.Kill()));
+      
+        //manual pnuematic controls
+        ArmIn.onTrue(new InstantCommand(() -> s_Arm.In()));
+        ArmOut.onTrue(new InstantCommand(() -> s_Arm.Out()));
+        ActiveCompressor.onTrue(new InstantCommand(() -> s_Compressor.Active()));
+        ActiveCompressor.onFalse(new InstantCommand(() -> s_Compressor.Idle()));
+      
+        //manual wrist controls
+        WristUp.onTrue(new InstantCommand(() -> s_Wrist.UpManual()));
+        WristDown.whileTrue(new InstantCommand(() -> s_Wrist.DownManual()));
+        WristUp.whileFalse(new InstantCommand(() -> s_Wrist.StopManual()));
+        WristDown.whileFalse(new InstantCommand(() -> s_Wrist.StopManual()));
     }
 
     /**
@@ -89,3 +112,4 @@ public class RobotContainer {
         return new exampleAuto(s_Swerve);
     }
 }
+
