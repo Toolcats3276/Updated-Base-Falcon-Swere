@@ -28,10 +28,9 @@ public class InfeedSS extends SubsystemBase {
         ConeOut,
         CubeIn,
         CubeOut,
-        Kill;
     }
 
-    State InfeedState = State.Kill;
+    State InfeedState = State.Comp;
     
     @Override
 
@@ -60,11 +59,6 @@ public class InfeedSS extends SubsystemBase {
             case CubeOut:
                 m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedConstants.CUBE_OUT);
                 break;
-
-
-            case Kill:
-                m_infeedMotor.set(TalonFXControlMode.PercentOutput,InfeedConstants.KILL);
-                break;
         }
 
         SmartDashboard.getNumber("InfeedSpeed",m_infeedMotor.getMotorOutputPercent());
@@ -92,10 +86,6 @@ public void CubeIn(){
 public void CubeOut(){
     InfeedState = State.CubeOut;
 
-}
-
-public void Kill(){
-    InfeedState = State.Kill;
 }
 
 }

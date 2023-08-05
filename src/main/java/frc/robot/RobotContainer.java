@@ -6,7 +6,15 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import frc.robot.commands.infeed.InfeedCompCommand;
+import frc.robot.commands.infeed.InfeedConeCommand;
+import frc.robot.commands.infeed.InfeedCubeCommand;
+import frc.robot.commands.infeed.OutfeedConeCommand;
+import frc.robot.commands.infeed.OutfeedCubeCommand;
+import frc.robot.commands.pnuematic.*;
+import frc.robot.commands.wrist.ManualDownCommand;
+import frc.robot.commands.wrist.ManualStopCommand;
+import frc.robot.commands.wrist.ManualUpCommand;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -83,24 +91,23 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
         //temporary controls for each motor speed
-        Comp.onTrue (new InstantCommand(() -> s_Infeed.Comp()));
-        ConeIn.onTrue (new InstantCommand(() -> s_Infeed.ConeIn()));
-        ConeOut.onTrue (new InstantCommand(() -> s_Infeed.ConeOut()));
-        CubeIn.onTrue (new InstantCommand(() -> s_Infeed.CubeIn()));
-        CubeOut.onTrue (new InstantCommand(() -> s_Infeed.CubeOut()));
-        Kill.onTrue (new InstantCommand(() -> s_Infeed.Kill()));
+        Comp.onTrue (new InfeedCompCommand(s_Infeed));
+        ConeIn.onTrue (new InfeedConeCommand(s_Infeed));
+        ConeOut.onTrue (new OutfeedConeCommand(s_Infeed));
+        CubeIn.onTrue (new InfeedCubeCommand(s_Infeed));
+        CubeOut.onTrue (new OutfeedCubeCommand(s_Infeed));
       
         //manual pnuematic controls
-        ArmIn.onTrue(new InstantCommand(() -> s_Arm.In()));
-        ArmOut.onTrue(new InstantCommand(() -> s_Arm.Out()));
-        ActiveCompressor.onTrue(new InstantCommand(() -> s_Compressor.Active()));
-        ActiveCompressor.onFalse(new InstantCommand(() -> s_Compressor.Idle()));
+        ArmIn.onTrue(new ArmInCommand(s_Arm));
+        ArmOut.onTrue(new ArmOutCommand(s_Arm));
+        ActiveCompressor.onTrue(new CompressorActiveCommand(s_Compressor));
+        ActiveCompressor.onFalse(new CompressorIdleCommand(s_Compressor));
       
         //manual wrist controls
-        WristUp.onTrue(new InstantCommand(() -> s_Wrist.UpManual()));
-        WristDown.whileTrue(new InstantCommand(() -> s_Wrist.DownManual()));
-        WristUp.whileFalse(new InstantCommand(() -> s_Wrist.StopManual()));
-        WristDown.whileFalse(new InstantCommand(() -> s_Wrist.StopManual()));
+        WristUp.onTrue(new ManualUpCommand(s_Wrist));
+        WristDown.onTrue(new ManualDownCommand(s_Wrist));
+        WristUp.onFalse(new ManualStopCommand(s_Wrist));
+        WristDown.onFalse(new ManualStopCommand(s_Wrist));
     }
 
     /**

@@ -3,16 +3,19 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.WristSS;
 import frc.robot.subsystems.ArmSS;
+import frc.robot.subsystems.InfeedSS;
 
 public class TestScoring extends CommandBase {
     
     private ArmSS s_Arm;
     private WristSS s_Wrist;
+    private InfeedSS s_Infeed;
 
-    public TestScoring(ArmSS Arm, WristSS Wrist) {
+    public TestScoring(ArmSS Arm, WristSS Wrist, InfeedSS Infeed) {
         this.s_Arm = Arm;
         this.s_Wrist = Wrist;
-        addRequirements(s_Arm, s_Wrist);
+        this.s_Infeed = Infeed;
+        addRequirements(s_Arm, s_Wrist, s_Infeed);
     }
 
     @Override
@@ -23,11 +26,12 @@ public class TestScoring extends CommandBase {
     @Override
     public void execute() {
         s_Arm.Out();
+        s_Infeed.ConeOut();
     }
 
     @Override
     public void end(boolean interrupted) {
-
+        s_Infeed.Comp();
     }
 
     @Override

@@ -26,7 +26,6 @@ public final class Constants {
         public static final double CONE_OUT = 0.5;
         public static final double CUBE_IN = 0.35;
         public static final double CUBE_OUT = -1.00;
-        public static final double KILL = 0.00;
     }
 
     public static final class WristConstants {
