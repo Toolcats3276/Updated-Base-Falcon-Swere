@@ -21,6 +21,7 @@ public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
     private final Joystick m_driveController = new Joystick(0);
+    private final Joystick m_flightStick = new Joystick(1);
 
 
 
@@ -60,9 +61,9 @@ public class RobotContainer {
             new TeleopSwerve(
                 s_Swerve, 
 
-                () -> Math.pow(m_DriveController.getRawAxis(translationAxis), 1)/2,
-                () -> Math.pow(m_DriveController.getRawAxis(strafeAxis), 1)/2, 
-                () -> Math.pow(m_DriveController.getRawAxis(rotationAxis), 1)/2, 
+                () -> Math.pow(m_driveController.getRawAxis(translationAxis), 1)/2,
+                () -> Math.pow(m_driveController.getRawAxis(strafeAxis), 1)/2, 
+                () -> Math.pow(m_driveController.getRawAxis(rotationAxis), 1)/2, 
                 () -> robotCentric.getAsBoolean()
             )
         );

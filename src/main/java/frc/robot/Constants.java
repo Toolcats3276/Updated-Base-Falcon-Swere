@@ -27,6 +27,7 @@ public final class Constants {
         public static final double CUBE_IN = 0.35;
         public static final double CUBE_OUT = -1.00;
         public static final double KILL = 0.00;
+    }
 
     public static final class WristConstants {
         public static final int WRIST_MOTOR_ID = 15;
@@ -61,6 +62,8 @@ public final class Constants {
         /* Drivetrain Constants */
         public static final double trackWidth = Units.inchesToMeters(22); 
         public static final double wheelBase = Units.inchesToMeters(22); 
+        public static final double wheelCircumference = chosenModule.wheelCircumference;
+
 
 
         /* Swerve Kinematics 
@@ -184,6 +187,5 @@ public final class Constants {
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
     }
-
 
 }
