@@ -47,7 +47,6 @@ public class RobotContainer {
     private final JoystickButton ConeOut = new JoystickButton(m_driveController, 3);
     private final JoystickButton CubeIn = new JoystickButton(m_driveController, 6);
     private final JoystickButton CubeOut = new JoystickButton(m_driveController, 10);
-    private final JoystickButton Kill = new JoystickButton(m_driveController, 5);
   
     private final JoystickButton ActiveCompressor = new JoystickButton(m_flightStick,9);
     private final JoystickButton ArmOut = new JoystickButton(m_flightStick, 5);
