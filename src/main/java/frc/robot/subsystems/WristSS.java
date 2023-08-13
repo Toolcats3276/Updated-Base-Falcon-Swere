@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.TalonFXPIDSetConfiguration;
 import com.ctre.phoenix.sensors.CANCoder;
 
 public class WristSS extends SubsystemBase {
@@ -21,6 +20,7 @@ public class WristSS extends SubsystemBase {
     private PIDController wristPIDController;
 
     private double setPoint;
+    private double speed;
 
     private double p = 0;
     private double i = 0;
@@ -60,22 +60,38 @@ public class WristSS extends SubsystemBase {
         
         public void periodic(){
 
+                 //stops motor when encoder position excedes their max and min position (manual mode only)
+            if ((wristEncoder.getPosition() >= WristConstants.WRIST_SETPOINT_MAX && speed > 0.0) || 
+                (wristEncoder.getPosition() <= WristConstants.WRIST_SETPOINT_MIN && speed > 0.0)) {
+                m_wristMotor.set(TalonFXControlMode.PercentOutput,0);
+                return;}
+
             switch (WristMode) {
                 case ManualUp:{
                     m_wristMotor.set(TalonFXControlMode.PercentOutput, WristConstants.MANUAL_WRIST_UP_SPEED);
                     m_wristMotor.getSelectedSensorPosition();
+                    speed = WristConstants.MANUAL_WRIST_UP_SPEED;
                     break;
                 }
                 case ManualDown:{
                     m_wristMotor.set(TalonFXControlMode.PercentOutput, WristConstants.MANUAL_WRIST_DOWN_SPEED);
+                    speed = WristConstants.MANUAL_WRIST_DOWN_SPEED;
                     break;
                 }
                 case ManualStop:{
                     m_wristMotor.set(TalonFXControlMode.PercentOutput, 0);
+                    speed = 0;
                     break;
                 }
                 case PID:{
+
                    // m_wristMotor.set(TalonFXControlMode.Position, wristPIDController, setPoint);
+                    wristPIDController.setSetpoint(setPoint);
+                    m_wristMotor.set(TalonFXControlMode.PercentOutput, wristPIDController.calculate(wristPot.get(), setPoint));
+                    if(Math.abs(wristEncoder.getPosition() - setPoint) < WristConstants.WRIST_PID_TOLERANCE) {
+                        StopManual();
+                        m_wristMotor.set(TalonFXControlMode.PercentOutput, 0);
+                    }
                 }
 
             }
@@ -95,6 +111,15 @@ public class WristSS extends SubsystemBase {
     public void StopManual(){
         WristMode = Mode.ManualStop;
     }
+
+
+    public void setSetpoint(double setPoint){
+        WristMode = Mode.PID;
+        //sets the double setPoint in this chunck to be equil to double setPoint in the class
+        this.setPoint = setPoint;
+    }
+
+
     public void BrakeWrist(){
         m_wristMotor.configFactoryDefault();
         m_wristMotor.setNeutralMode(NeutralMode.Brake);
