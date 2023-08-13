@@ -14,11 +14,11 @@ public class HighCone extends SequentialCommandGroup{
 
     
     public HighCone(WristSS s_Wrist, ArmSS s_Arm) {
-        // TODO: Add new command sequence given Cube Shooting 
+
         addCommands(
-                new ArmOutCommand(s_Arm),
-                new WaitCommand(0.5),
-                new PIDWristCommand(s_Wrist, WristConstants.HIGH_CONE));
+                // new ArmOutCommand(s_Arm),
+                new PIDWristCommand(s_Wrist, WristConstants.HIGH_CONE)
+                );
                 
         addRequirements(s_Wrist, s_Arm);
     }

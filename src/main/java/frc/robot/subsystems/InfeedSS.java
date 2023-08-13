@@ -44,8 +44,8 @@ public class InfeedSS extends SubsystemBase {
 
     public void periodic() {
 
-
         switch(InfeedMode) {
+
             case Comp:{
                 sensorTimer.reset();
                 m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedConstants.COMP);
@@ -53,11 +53,17 @@ public class InfeedSS extends SubsystemBase {
             }
 
             case ConeIn:{
-                sensorTimer.start();
+
                 m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedConstants.CONE_IN);
+                System.out.println("speed changed");
+                if (sensor.get()){
+                    sensorTimer.start();
+                    System.out.println("sensor tripped");
+                } 
                 if (sensor.get() & sensorTimer.hasElapsed(0.2)){
-                    sensorTimer.reset();
+                    System.out.println("timer elapsed");
                     InfeedMode = Mode.Comp;
+                    sensorTimer.reset();
                 }
                 break;
             }
@@ -70,8 +76,10 @@ public class InfeedSS extends SubsystemBase {
 
 
             case CubeIn:{
-                sensorTimer.start();
                 m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedConstants.CUBE_IN);
+                if (sensor.get()){
+                    sensorTimer.start();
+                }
                 if (sensor.get() & sensorTimer.hasElapsed(0.175)){
                     sensorTimer.reset();
                     InfeedMode = Mode.Comp;
@@ -91,6 +99,7 @@ public class InfeedSS extends SubsystemBase {
 
 public void Comp(){
     InfeedMode = Mode.Comp;
+    sensorTimer.reset();
 }
 
 public void ConeIn(){
@@ -99,17 +108,17 @@ public void ConeIn(){
 
 public void ConeOut(){
     InfeedMode = Mode.ConeOut;
-
+    sensorTimer.reset();
 }
 
 public void CubeIn(){
     InfeedMode = Mode.CubeIn;
-
+    sensorTimer.reset();
 }
 
 public void CubeOut(){
     InfeedMode = Mode.CubeOut;
-
+    sensorTimer.reset();
 }
 
 }

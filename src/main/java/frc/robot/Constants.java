@@ -37,10 +37,10 @@ public final class Constants {
 
         public static final double WRIST_SETPOINT_MAX = 0.7;
         public static final double WRIST_SETPOINT_MIN = 0.217;
-        public static final double WRIST_PID_TOLERANCE = 0;
+        public static final double WRIST_PID_TOLERANCE = 0.00;
 
         public static final double COMP = 0.70;
-        public static final double HIGH_CONE = 0.37;
+        public static final double HIGH_CONE = 0.28;//0.37
         public static final double MID_CONE = 0.22;
         public static final double LOW_CONE = 0.22;
         public static final double HIGH_CUBE = 0.44;

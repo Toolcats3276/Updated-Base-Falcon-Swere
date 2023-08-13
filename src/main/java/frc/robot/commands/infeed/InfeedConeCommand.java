@@ -15,12 +15,11 @@ public class InfeedConeCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
+        s_Infeed.ConeIn();
     }
 
     @Override
     public void execute() {
-        s_Infeed.ConeIn();
     }
 
     @Override
@@ -30,7 +29,7 @@ public class InfeedConeCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
     
 }

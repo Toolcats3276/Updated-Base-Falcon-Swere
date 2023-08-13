@@ -15,12 +15,12 @@ public class InfeedCubeCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
+        s_Infeed.CubeIn();
     }
 
     @Override
     public void execute() {
-        s_Infeed.CubeIn();
+        
     }
 
     @Override
@@ -30,7 +30,7 @@ public class InfeedCubeCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
     
 }

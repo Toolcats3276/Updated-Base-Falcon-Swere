@@ -15,12 +15,12 @@ public class InfeedCompCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
+        s_Infeed.Comp();
     }
 
     @Override
     public void execute() {
-        s_Infeed.Comp();
+
     }
 
     @Override
@@ -30,7 +30,7 @@ public class InfeedCompCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
     
 }

@@ -17,23 +17,24 @@ public class PIDWristCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        s_Wrist.setSetpoint(setPoint);
+      
 
     }
 
     @Override
     public void execute() {
 
+        s_Wrist.setSetpoint(setPoint);
     }
 
     @Override
     public void end(boolean interrupted) {
-        s_Wrist.StopManual();
+
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
     
 }

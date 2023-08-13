@@ -15,12 +15,12 @@ public class OutfeedConeCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
+        s_Infeed.ConeOut();
     }
 
     @Override
     public void execute() {
-        s_Infeed.ConeOut();
+        
     }
 
     @Override
@@ -30,7 +30,7 @@ public class OutfeedConeCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
     
 }

@@ -17,6 +17,7 @@ import frc.robot.commands.wrist.ManualStopCommand;
 import frc.robot.commands.wrist.ManualUpCommand;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
+import frc.robot.commands.compoundCommands.HighCone;
 import frc.robot.subsystems.*;
 
 /**
@@ -44,7 +45,7 @@ public class RobotContainer {
     
     private final JoystickButton Comp = new JoystickButton(m_driveController, 2);
     private final JoystickButton ConeIn = new JoystickButton(m_driveController, 7);
-    private final JoystickButton ConeOut = new JoystickButton(m_driveController, 3);
+    // private final JoystickButton ConeOut = new JoystickButton(m_driveController, 3);
     private final JoystickButton CubeIn = new JoystickButton(m_driveController, 6);
     private final JoystickButton CubeOut = new JoystickButton(m_driveController, 10);
   
@@ -54,6 +55,8 @@ public class RobotContainer {
 
     private final JoystickButton WristUp = new JoystickButton(m_flightStick,3);
     private final JoystickButton WristDown = new JoystickButton(m_flightStick,4);
+
+    private final JoystickButton HighCone = new JoystickButton(m_driveController,3);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -92,21 +95,24 @@ public class RobotContainer {
         //temporary controls for each motor speed
         Comp.onTrue (new InfeedCompCommand(s_Infeed));
         ConeIn.onTrue (new InfeedConeCommand(s_Infeed));
-        ConeOut.onTrue (new OutfeedConeCommand(s_Infeed));
+        // ConeOut.onTrue (new OutfeedConeCommand(s_Infeed));
         CubeIn.onTrue (new InfeedCubeCommand(s_Infeed));
         CubeOut.onTrue (new OutfeedCubeCommand(s_Infeed));
       
         //manual pnuematic controls
         ArmIn.onTrue(new ArmInCommand(s_Arm));
         ArmOut.onTrue(new ArmOutCommand(s_Arm));
-        ActiveCompressor.onTrue(new CompressorActiveCommand(s_Compressor));
+        ActiveCompressor.whileTrue(new CompressorActiveCommand(s_Compressor));
         ActiveCompressor.onFalse(new CompressorIdleCommand(s_Compressor));
       
         //manual wrist controls
-        WristUp.onTrue(new ManualUpCommand(s_Wrist));
-        WristDown.onTrue(new ManualDownCommand(s_Wrist));
+        WristUp.whileTrue(new ManualUpCommand(s_Wrist));
+        WristDown.whileTrue(new ManualDownCommand(s_Wrist));
         WristUp.onFalse(new ManualStopCommand(s_Wrist));
         WristDown.onFalse(new ManualStopCommand(s_Wrist));
+
+        HighCone.onTrue(new HighCone(s_Wrist, s_Arm));
+
     }
 
     /**
