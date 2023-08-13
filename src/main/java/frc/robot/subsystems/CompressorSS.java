@@ -12,12 +12,12 @@ public class CompressorSS extends SubsystemBase{
 
     Compressor pcmCompressor = new Compressor(PneumaticConstants.COMPRESSOR_ID, PneumaticsModuleType.REVPH);
 
-    public enum State{
+    public enum Mode{
         Idle,
         Active;
       }
   
-      State CompressorState = State.Idle;
+      Mode CompressorState = Mode.Idle;
   
       @Override
 
@@ -42,12 +42,12 @@ public class CompressorSS extends SubsystemBase{
 
 
       public void Idle(){
-        CompressorState = State.Idle;
+        CompressorState = Mode.Idle;
         }
 
       
       public void Active(){
-        CompressorState = State.Active;
+        CompressorState = Mode.Active;
         }
       
 }
