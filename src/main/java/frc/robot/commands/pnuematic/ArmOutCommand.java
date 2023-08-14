@@ -15,12 +15,12 @@ public class ArmOutCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
+        s_Arm.Out();
     }
 
     @Override
     public void execute() {
-        s_Arm.Out();
+        
     }
 
     @Override

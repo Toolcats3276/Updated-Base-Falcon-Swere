@@ -15,12 +15,12 @@ public class ManualStopCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
+        s_Wrist.StopManual();
     }
 
     @Override
     public void execute() {
-        s_Wrist.StopManual();
+        
     }
 
     @Override

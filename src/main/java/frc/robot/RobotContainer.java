@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.autos.*;
 import frc.robot.commands.*;
-
+import frc.robot.commands.compoundCommands.CompCommand;
 import frc.robot.commands.compoundCommands.coneCommands.ConeHighCommand;
 import frc.robot.commands.compoundCommands.coneCommands.ConeMidCommand;
 import frc.robot.commands.compoundCommands.cubeCommands.CubeHighCommand;

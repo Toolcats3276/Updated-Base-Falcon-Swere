@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import frc.robot.Constants.WristConstants;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -123,6 +122,7 @@ public class WristSS extends SubsystemBase {
         this.setPoint = setPoint;
         WristMode = Mode.PID;
         System.out.println("Mode Set");
+        wristPIDController.reset();
     }
 
 

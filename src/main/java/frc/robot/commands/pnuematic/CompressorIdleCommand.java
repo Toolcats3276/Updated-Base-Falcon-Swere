@@ -15,12 +15,12 @@ public class CompressorIdleCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
+        s_Compressor.Idle();
     }
 
     @Override
     public void execute() {
-        s_Compressor.Idle();
+        
     }
 
     @Override
@@ -30,7 +30,7 @@ public class CompressorIdleCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
     
 }

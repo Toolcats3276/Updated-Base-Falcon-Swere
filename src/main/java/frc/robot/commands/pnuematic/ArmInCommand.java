@@ -15,12 +15,12 @@ public class ArmInCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
+        s_Arm.In();
     }
 
     @Override
     public void execute() {
-        s_Arm.In();
+        
     }
 
     @Override

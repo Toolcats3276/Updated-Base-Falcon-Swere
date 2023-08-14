@@ -15,12 +15,12 @@ public class ArmToggleCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
+        s_Arm.Toggle();
     }
 
     @Override
     public void execute() {
-        s_Arm.Toggle();
+        
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ArmToggleCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
     
 }

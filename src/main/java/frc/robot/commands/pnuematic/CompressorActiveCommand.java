@@ -15,12 +15,12 @@ public class CompressorActiveCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
+        s_Compressor.Active();
     }
 
     @Override
     public void execute() {
-        s_Compressor.Active();
+        
     }
 
     @Override
@@ -30,7 +30,7 @@ public class CompressorActiveCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
     
 }

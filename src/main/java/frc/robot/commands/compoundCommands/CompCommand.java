@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.compoundCommands;
 
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.pnuematic.*;

@@ -15,12 +15,12 @@ public class ManualDownCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
+        s_Wrist.DownManual();
     }
 
     @Override
     public void execute() {
-        s_Wrist.DownManual();
+        
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ManualDownCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
     
 }
