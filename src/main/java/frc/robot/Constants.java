@@ -44,7 +44,7 @@ public final class Constants {
         public static final double MID_CONE = 0.22;
         public static final double LOW_CONE = 0.22;
         public static final double HIGH_CUBE = 0.44;
-        public static final double MID = 0.70;
+        public static final double MID_CUBE = 0.70;
         public static final double LOW_CUBE = 0.70;
         public static final double CONE_INFEED = 0.22;
         public static final double CUBE_INFEED = 0.32;

@@ -22,7 +22,7 @@ public class WristSS extends SubsystemBase {
     private double setPoint;
     private double speed;
 
-    private double p = 0;
+    private double p = 3;
     private double i = 0;
     private double d = 0;
     private double ff = 0;
@@ -88,8 +88,9 @@ public class WristSS extends SubsystemBase {
                 case PID:{
                    // m_wristMotor.set(TalonFXControlMode.Position, wristPIDController, setPoint);
                     wristPIDController.setSetpoint(setPoint);
+                    System.out.println("point set");
                     m_wristMotor.set(TalonFXControlMode.PercentOutput, wristPIDController.calculate(wristPot.get(), setPoint));
-                    
+
                     System.out.println(wristPIDController.calculate(wristPot.get(), setPoint));
                     // if(Math.abs(wristPot.get() - setPoint) < WristConstants.WRIST_PID_TOLERANCE) {
                     //     StopManual();

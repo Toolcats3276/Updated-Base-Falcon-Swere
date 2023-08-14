@@ -6,18 +6,29 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import frc.robot.autos.*;
+import frc.robot.commands.*;
+
+import frc.robot.commands.compoundCommands.coneCommands.ConeHighCommand;
+import frc.robot.commands.compoundCommands.coneCommands.ConeMidCommand;
+import frc.robot.commands.compoundCommands.cubeCommands.CubeHighCommand;
+import frc.robot.commands.compoundCommands.cubeCommands.CubeLowCommand;
+
 import frc.robot.commands.infeed.InfeedCompCommand;
 import frc.robot.commands.infeed.InfeedConeCommand;
 import frc.robot.commands.infeed.InfeedCubeCommand;
-import frc.robot.commands.infeed.OutfeedConeCommand;
 import frc.robot.commands.infeed.OutfeedCubeCommand;
-import frc.robot.commands.pnuematic.*;
+
+import frc.robot.commands.pnuematic.ArmInCommand;
+import frc.robot.commands.pnuematic.ArmOutCommand;
+import frc.robot.commands.pnuematic.CompressorActiveCommand;
+import frc.robot.commands.pnuematic.CompressorIdleCommand;
+
 import frc.robot.commands.wrist.ManualDownCommand;
 import frc.robot.commands.wrist.ManualStopCommand;
 import frc.robot.commands.wrist.ManualUpCommand;
-import frc.robot.autos.*;
-import frc.robot.commands.*;
-import frc.robot.commands.compoundCommands.HighCone;
+
 import frc.robot.subsystems.*;
 
 /**
@@ -43,20 +54,24 @@ public class RobotContainer {
     private final JoystickButton zeroGyro = new JoystickButton(m_driveController, 2);
     private final JoystickButton robotCentric = new JoystickButton(m_driveController, 16);
     
-    private final JoystickButton Comp = new JoystickButton(m_driveController, 2);
+    // private final JoystickButton Comp = new JoystickButton(m_driveController, 2);
     private final JoystickButton ConeIn = new JoystickButton(m_driveController, 7);
     // private final JoystickButton ConeOut = new JoystickButton(m_driveController, 3);
     private final JoystickButton CubeIn = new JoystickButton(m_driveController, 6);
     private final JoystickButton CubeOut = new JoystickButton(m_driveController, 10);
   
-    private final JoystickButton ActiveCompressor = new JoystickButton(m_flightStick,9);
-    private final JoystickButton ArmOut = new JoystickButton(m_flightStick, 5);
     private final JoystickButton ArmIn = new JoystickButton(m_flightStick, 6);
 
+    private final JoystickButton ActiveCompressor = new JoystickButton(m_flightStick,9);
+    private final JoystickButton ArmOut = new JoystickButton(m_flightStick, 5);
     private final JoystickButton WristUp = new JoystickButton(m_flightStick,3);
     private final JoystickButton WristDown = new JoystickButton(m_flightStick,4);
 
-    private final JoystickButton HighCone = new JoystickButton(m_driveController,3);
+    private final JoystickButton Comp = new JoystickButton(m_driveController,1);
+    private final JoystickButton HighCone = new JoystickButton(m_driveController,2);
+    private final JoystickButton MidCone = new JoystickButton(m_driveController,3);
+    private final JoystickButton HighCube = new JoystickButton(m_driveController,4);
+    private final JoystickButton MidCube = new JoystickButton(m_driveController,5);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -111,7 +126,11 @@ public class RobotContainer {
         WristUp.onFalse(new ManualStopCommand(s_Wrist));
         WristDown.onFalse(new ManualStopCommand(s_Wrist));
 
-        HighCone.onTrue(new HighCone(s_Wrist, s_Arm));
+        Comp.onTrue(new CompCommand(s_Wrist, s_Arm));
+        HighCone.onTrue(new ConeHighCommand(s_Wrist, s_Arm));
+        MidCone.onTrue(new ConeMidCommand(s_Wrist, s_Arm));
+        HighCube.onTrue(new CubeHighCommand(s_Wrist, s_Arm));
+        MidCube.onTrue(new CubeLowCommand(s_Wrist, s_Arm));
 
     }
 
