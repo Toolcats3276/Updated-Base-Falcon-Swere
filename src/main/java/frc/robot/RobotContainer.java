@@ -52,7 +52,6 @@ public class RobotContainer {
     private final ModeMemSS s_ModeMem = new ModeMemSS();
 
     /* Controllers */
-    private final Joystick driver = new Joystick(0);
     private final Joystick m_driveController = new Joystick(0);
     private final Joystick m_flightStick = new Joystick(1);
 
