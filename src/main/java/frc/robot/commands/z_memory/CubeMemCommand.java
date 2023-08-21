@@ -1,25 +1,21 @@
-package frc.robot.commands.infeed;
+package frc.robot.commands.z_memory;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.InfeedSS;
 import frc.robot.subsystems.ModeMemSS;
 
-public class OutfeedCubeCommand extends CommandBase {
+public class CubeMemCommand extends CommandBase {
     
-    private InfeedSS s_Infeed;
     private ModeMemSS s_ModeMem;
 
 
-    public OutfeedCubeCommand(InfeedSS s_Infeed, ModeMemSS s_ModeMem) {
-        this.s_Infeed = s_Infeed;
+    public CubeMemCommand(ModeMemSS s_ModeMem) {
         this.s_ModeMem = s_ModeMem;
-        addRequirements(s_Infeed);
+        addRequirements(s_ModeMem);
     }
 
     @Override
     public void initialize() {
-        s_Infeed.CubeOut();
-        s_ModeMem.FalseCube();
+        s_ModeMem.TrueCube();
     }
 
     @Override
