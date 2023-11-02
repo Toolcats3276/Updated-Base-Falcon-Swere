@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants.WristConstants;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,7 +20,7 @@ public class WristSS extends SubsystemBase {
     private PIDController wristPIDController;
 
     private double setPoint;
-    private double speed;
+    private double output;
 
     private double p = 3;
     private double i = 0;
@@ -60,49 +61,50 @@ public class WristSS extends SubsystemBase {
         
         public void periodic(){
 
-                 //stops motor when encoder position excedes their max and min position (manual mode only)
-            // if ((wristEncoder.getPosition() >= WristConstants.WRIST_SETPOINT_MAX && speed > 0.0) || 
-            //     (wristEncoder.getPosition() <= WristConstants.WRIST_SETPOINT_MIN && speed > 0.0)) {
-            //     m_wristMotor.set(TalonFXControlMode.PercentOutput,0);
-            //     return;}
+                //  stops motor when encoder position excedes their max and min position (manual mode only)
+            if ((wristEncoder.getPosition() >= WristConstants.WRIST_SETPOINT_MAX && output > 0.0) || 
+                (wristEncoder.getPosition() <= WristConstants.WRIST_SETPOINT_MIN && output > 0.0)) {
+                m_wristMotor.set(TalonFXControlMode.PercentOutput,0);
+                return;}
 
             switch (WristMode) {
                 case ManualUp:{
                     m_wristMotor.set(TalonFXControlMode.PercentOutput, WristConstants.MANUAL_WRIST_UP_SPEED);
                     m_wristMotor.getSelectedSensorPosition();
-                    speed = WristConstants.MANUAL_WRIST_UP_SPEED;
+                    output = WristConstants.MANUAL_WRIST_UP_SPEED;
                     break;
                 }
                 case ManualDown:{
                     m_wristMotor.set(TalonFXControlMode.PercentOutput, WristConstants.MANUAL_WRIST_DOWN_SPEED);
-                    speed = WristConstants.MANUAL_WRIST_DOWN_SPEED;
+                    output = WristConstants.MANUAL_WRIST_DOWN_SPEED;
                     break;
                 }
                 case ManualStop:{
                     m_wristMotor.set(TalonFXControlMode.PercentOutput, 0);
-                    speed = 0;
-                    System.out.println("stopped");
+                    output = 0;
                     break;
                 }
                 case PID:{
                    // m_wristMotor.set(TalonFXControlMode.Position, wristPIDController, setPoint);
                     wristPIDController.setSetpoint(setPoint);
-                    System.out.println("point set");
-                    m_wristMotor.set(TalonFXControlMode.PercentOutput, wristPIDController.calculate(wristPot.get(), setPoint));
+                    output = MathUtil.clamp(wristPIDController.calculate(wristPot.get(), setPoint), -MAX_OUTPUT, MAX_OUTPUT);
+
+                    m_wristMotor.set(TalonFXControlMode.PercentOutput, output);
+                    
 
                     System.out.println(wristPIDController.calculate(wristPot.get(), setPoint));
-                    // if(Math.abs(wristPot.get() - setPoint) < WristConstants.WRIST_PID_TOLERANCE) {
-                    //     StopManual();
-                    //     m_wristMotor.set(TalonFXControlMode.PercentOutput, 0);
-                    // }
+                    if(Math.abs(wristPot.get() - setPoint) < WristConstants.WRIST_PID_TOLERANCE) {
+                        StopManual();
+                        m_wristMotor.set(TalonFXControlMode.PercentOutput, 0);
+                    }
                     break;
                 }
 
             }
 
-            SmartDashboard.putNumber("wristPos", wristEncoder.getPosition());
-            SmartDashboard.putNumber("wristAbsolutePos", wristEncoder.getAbsolutePosition());
-            SmartDashboard.putNumber("motorEncoderPos", m_wristMotor.getSelectedSensorPosition());
+            // SmartDashboard.putNumber("wristPos", wristEncoder.getPosition());
+            // SmartDashboard.putNumber("wristAbsolutePos", wristEncoder.getAbsolutePosition());
+            // SmartDashboard.putNumber("motorEncoderPos", m_wristMotor.getSelectedSensorPosition());
             SmartDashboard.putNumber("potPos", wristPot.get());
             
         }

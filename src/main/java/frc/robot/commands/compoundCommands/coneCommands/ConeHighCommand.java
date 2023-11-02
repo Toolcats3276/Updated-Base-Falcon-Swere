@@ -6,6 +6,7 @@ import frc.robot.commands.wrist.*;
 import frc.robot.commands.z_memory.ConeMemCommand;
 import frc.robot.subsystems.ArmSS;
 import frc.robot.subsystems.ModeMemSS;
+import frc.robot.subsystems.SlideSS;
 import frc.robot.subsystems.WristSS;
 
 import static frc.robot.Constants.WristConstants;
@@ -13,13 +14,14 @@ import static frc.robot.Constants.WristConstants;
 public class ConeHighCommand extends SequentialCommandGroup{
 
     
-    public ConeHighCommand(WristSS s_Wrist, ArmSS s_Arm, ModeMemSS s_ModeMem) {
+    public ConeHighCommand(WristSS s_Wrist, ArmSS s_Arm, ModeMemSS s_ModeMem, SlideSS s_Slide) {
 
         addCommands(
                 new ConeMemCommand(s_ModeMem),
                 new ArmOutCommand(s_Arm),
                 new WaitCommand(0.5),
-                new PIDWristCommand(s_Wrist, WristConstants.HIGH_CONE)
+                new PIDWristCommand(s_Wrist, WristConstants.HIGH_CONE),
+                new SlideOutCommand(s_Slide)
                 );
         addRequirements(s_Wrist, s_Arm);
     }

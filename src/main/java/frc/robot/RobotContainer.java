@@ -50,6 +50,7 @@ public class RobotContainer {
     private final CompressorSS s_Compressor = new CompressorSS();
     private final WristSS s_Wrist = new WristSS();
     private final ModeMemSS s_ModeMem = new ModeMemSS();
+    private final SlideSS s_Slide = new SlideSS();
 
     /* Controllers */
     private final Joystick m_driveController = new Joystick(0);
@@ -60,21 +61,22 @@ public class RobotContainer {
     private final int strafeAxis = Joystick.AxisType.kX.value;
     private final int rotationAxis = Joystick.AxisType.kZ.value;
 
+
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(m_driveController, 1);
-    private final JoystickButton robotCentric = new JoystickButton(m_driveController, 2);
+    private final JoystickButton zeroGyro = new JoystickButton(m_driveController, 14);
+    private final JoystickButton robotCentric = new JoystickButton(m_driveController, 0);
     
-    private final JoystickButton Comp = new JoystickButton(m_driveController,7);
-    private final JoystickButton ConeIn = new JoystickButton(m_driveController, 3);
-    private final JoystickButton CubeIn = new JoystickButton(m_driveController, 5);
+    private final JoystickButton Comp = new JoystickButton(m_driveController,2);
+    private final JoystickButton ConeIn = new JoystickButton(m_driveController,7);
+    private final JoystickButton CubeIn = new JoystickButton(m_driveController,6);
     
-    private final JoystickButton HighCone = new JoystickButton(m_driveController,8);
-    private final JoystickButton MidCone = new JoystickButton(m_driveController,9);
+    private final JoystickButton HighCone = new JoystickButton(m_driveController,3);
+    private final JoystickButton MidCone = new JoystickButton(m_driveController,10);
 
-    private final JoystickButton HighCube = new JoystickButton(m_driveController,10);
-    private final JoystickButton MidCube = new JoystickButton(m_driveController,11);
+    private final JoystickButton HighCube = new JoystickButton(m_driveController,4);
+    private final JoystickButton MidCube = new JoystickButton(m_driveController,0);
 
-    private final JoystickButton Shoot = new JoystickButton(m_driveController,12);
+    private final JoystickButton Shoot = new JoystickButton(m_driveController,0);
     
     private final Trigger ShootCone = new Trigger(Shoot.and(s_ModeMem.Cone));
     private final Trigger ShootCube = new Trigger(Shoot.and(s_ModeMem.Cube));
@@ -117,11 +119,11 @@ public class RobotContainer {
 
         //moves wrist and arms to position and sets motorspeed
         Comp.onTrue(new CompCommand(s_Wrist, s_Arm, s_Infeed));
-        ConeIn.onTrue(new ConeInCommand(s_Wrist, s_Arm, s_Infeed));
+        ConeIn.onTrue(new ConeInCommand(s_Wrist, s_Arm, s_Infeed, s_Slide));
         CubeIn.onTrue(new CubeInCommand(s_Wrist, s_Arm, s_Infeed));
         
         //sets wrist and arms to position and sets mode memory
-        HighCone.onTrue(new ConeHighCommand(s_Wrist, s_Arm, s_ModeMem));
+        HighCone.onTrue(new ConeHighCommand(s_Wrist, s_Arm, s_ModeMem, s_Slide));
         MidCone.onTrue(new ConeMidCommand(s_Wrist, s_Arm, s_ModeMem));
 
         HighCube.onTrue(new CubeHighCommand(s_Wrist, s_Arm, s_ModeMem));
