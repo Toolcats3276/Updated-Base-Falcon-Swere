@@ -16,16 +16,15 @@ public class InfeedSS extends SubsystemBase {
 
 
     private TalonFX m_infeedMotor;
-    private DigitalInput sensor;
-    private Timer sensorTimer;
+    private Double speed;
+
   
     public InfeedSS(){
             m_infeedMotor = new TalonFX(InfeedConstants.INFEED_MOTOR_ID);
             m_infeedMotor.configFactoryDefault();
             m_infeedMotor.setNeutralMode(NeutralMode.Brake);
 
-            sensor = new DigitalInput(0);
-            sensorTimer = new Timer();
+        
 
     }
 
@@ -47,7 +46,6 @@ public class InfeedSS extends SubsystemBase {
         switch(InfeedMode) {
 
             case Comp:{
-                sensorTimer.reset();
                 m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedConstants.COMP);
                 break;
             }
@@ -55,16 +53,6 @@ public class InfeedSS extends SubsystemBase {
             case ConeIn:{
 
                 m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedConstants.CONE_IN);
-                System.out.println("speed changed");
-                if (sensor.get()){
-                    sensorTimer.start();
-                    System.out.println("sensor tripped");
-                } 
-                if (sensor.get() & sensorTimer.hasElapsed(0.2)){
-                    System.out.println("timer elapsed");
-                    InfeedMode = Mode.Comp;
-                    sensorTimer.reset();
-                }
                 break;
             }
 
@@ -77,13 +65,6 @@ public class InfeedSS extends SubsystemBase {
 
             case CubeIn:{
                 m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedConstants.CUBE_IN);
-                if (sensor.get()){
-                    sensorTimer.start();
-                }
-                if (sensor.get() & sensorTimer.hasElapsed(0.175)){
-                    sensorTimer.reset();
-                    InfeedMode = Mode.Comp;
-                }
                 break;
             }
 
@@ -97,28 +78,24 @@ public class InfeedSS extends SubsystemBase {
         SmartDashboard.getNumber("InfeedSpeed",m_infeedMotor.getMotorOutputPercent());
     }
 
-public void Comp(){
-    InfeedMode = Mode.Comp;
-    sensorTimer.reset();
-}
-
-public void ConeIn(){
-    InfeedMode = Mode.ConeIn;
-}
-
-public void ConeOut(){
-    InfeedMode = Mode.ConeOut;
-    sensorTimer.reset();
-}
-
-public void CubeIn(){
-    InfeedMode = Mode.CubeIn;
-    sensorTimer.reset();
-}
-
-public void CubeOut(){
-    InfeedMode = Mode.CubeOut;
-    sensorTimer.reset();
-}
-
+    public void Comp(){
+        InfeedMode = Mode.Comp;
+    }
+    
+    public void ConeIn(){
+        InfeedMode = Mode.ConeIn;
+    }
+    
+    public void ConeOut(){
+        InfeedMode = Mode.ConeOut;
+    }
+    
+    public void CubeIn(){
+        InfeedMode = Mode.CubeIn;
+    }
+    
+    public void CubeOut(){
+        InfeedMode = Mode.CubeOut;
+    }
+    
 }

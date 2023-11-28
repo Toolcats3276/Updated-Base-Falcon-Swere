@@ -1,7 +1,9 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -17,7 +19,7 @@ import frc.robot.commands.compoundCommands.coneCommands.ConeMidCommand;
 import frc.robot.commands.compoundCommands.cubeCommands.CubeHighCommand;
 import frc.robot.commands.compoundCommands.cubeCommands.CubeInCommand;
 import frc.robot.commands.compoundCommands.cubeCommands.CubeLowCommand;
-
+import frc.robot.commands.compoundCommands.cubeCommands.CubeMidCommand;
 import frc.robot.commands.infeed.InfeedCompCommand;
 import frc.robot.commands.infeed.InfeedConeCommand;
 import frc.robot.commands.infeed.InfeedCubeCommand;
@@ -28,7 +30,8 @@ import frc.robot.commands.pnuematic.ArmInCommand;
 import frc.robot.commands.pnuematic.ArmOutCommand;
 import frc.robot.commands.pnuematic.CompressorActiveCommand;
 import frc.robot.commands.pnuematic.CompressorIdleCommand;
-
+import frc.robot.commands.pnuematic.SlideInCommand;
+import frc.robot.commands.pnuematic.SlideOutCommand;
 import frc.robot.commands.wrist.ManualDownCommand;
 import frc.robot.commands.wrist.ManualStopCommand;
 import frc.robot.commands.wrist.ManualUpCommand;
@@ -49,12 +52,14 @@ public class RobotContainer {
     private final ArmSS s_Arm = new ArmSS();
     private final CompressorSS s_Compressor = new CompressorSS();
     private final WristSS s_Wrist = new WristSS();
-    private final ModeMemSS s_ModeMem = new ModeMemSS();
     private final SlideSS s_Slide = new SlideSS();
 
     /* Controllers */
     private final Joystick m_driveController = new Joystick(0);
     private final Joystick m_flightStick = new Joystick(1);
+
+    private final DigitalInput sensor = new DigitalInput(0);
+    private final Timer sensorTimer = new Timer();
 
     /* Drive Controls */
     private final int translationAxis = Joystick.AxisType.kY.value;
@@ -65,6 +70,8 @@ public class RobotContainer {
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(m_driveController, 14);
     private final JoystickButton robotCentric = new JoystickButton(m_driveController, 0);
+
+     
     
     private final JoystickButton Comp = new JoystickButton(m_driveController,2);
     private final JoystickButton ConeIn = new JoystickButton(m_driveController,7);
@@ -76,10 +83,8 @@ public class RobotContainer {
     private final JoystickButton HighCube = new JoystickButton(m_driveController,4);
     private final JoystickButton MidCube = new JoystickButton(m_driveController,0);
 
-    private final JoystickButton Shoot = new JoystickButton(m_driveController,0);
-    
-    private final Trigger ShootCone = new Trigger(Shoot.and(s_ModeMem.Cone));
-    private final Trigger ShootCube = new Trigger(Shoot.and(s_ModeMem.Cube));
+    private final JoystickButton Shoot = new JoystickButton(m_driveController,1);
+
 
     private final JoystickButton ArmIn = new JoystickButton(m_flightStick, 6);
     private final JoystickButton ArmOut = new JoystickButton(m_flightStick, 5);
@@ -87,8 +92,13 @@ public class RobotContainer {
     private final JoystickButton WristUp = new JoystickButton(m_flightStick,3);
     private final JoystickButton WristDown = new JoystickButton(m_flightStick,4);
 
+    private final JoystickButton SlideOut = new JoystickButton(m_flightStick, 1);
+    private final JoystickButton SlideIn = new JoystickButton(m_flightStick, 2);
+
     private final JoystickButton ActiveCompressor = new JoystickButton(m_flightStick,9);
     
+    private final JoystickButton Cancel1 = new JoystickButton(m_driveController, 5);
+    private final JoystickButton Cancel2 = new JoystickButton(m_flightStick, 7);
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -117,30 +127,67 @@ public class RobotContainer {
         /* Drive Controller Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
+        //shoots game pieces when the setpoint is correct and trigger is pushed
+        if(s_Wrist.returnSetPoint() == Constants.WristConstants.HIGH_CONE & Shoot.getAsBoolean());{
+            new OutfeedConeCommand(s_Infeed);
+        }
+
+        if(s_Wrist.returnSetPoint() == Constants.WristConstants.MID_CONE & Shoot.getAsBoolean());{
+            new OutfeedConeCommand(s_Infeed);
+        }
+
+        if(s_Wrist.returnSetPoint() == Constants.WristConstants.HIGH_CUBE & Shoot.getAsBoolean());{
+            new OutfeedCubeCommand(s_Infeed);
+        }
+
+        if(s_Wrist.returnSetPoint() == Constants.WristConstants.MID_CUBE & Shoot.getAsBoolean());{
+            new OutfeedCubeCommand(s_Infeed);
+        }
+
         //moves wrist and arms to position and sets motorspeed
         Comp.onTrue(new CompCommand(s_Wrist, s_Arm, s_Infeed));
         ConeIn.onTrue(new ConeInCommand(s_Wrist, s_Arm, s_Infeed, s_Slide));
         CubeIn.onTrue(new CubeInCommand(s_Wrist, s_Arm, s_Infeed));
         
         //sets wrist and arms to position and sets mode memory
-        HighCone.onTrue(new ConeHighCommand(s_Wrist, s_Arm, s_ModeMem, s_Slide));
-        MidCone.onTrue(new ConeMidCommand(s_Wrist, s_Arm, s_ModeMem));
+        HighCone.onTrue(new ConeHighCommand(s_Wrist, s_Arm, s_Slide));
+        MidCone.onTrue(new ConeMidCommand(s_Wrist, s_Arm));
 
-        HighCube.onTrue(new CubeHighCommand(s_Wrist, s_Arm, s_ModeMem));
-        MidCube.onTrue(new CubeLowCommand(s_Wrist, s_Arm, s_ModeMem));
-
-        //sets motor speed when mode memory is true and shoot button is pressed and sets memory to false
-        ShootCone.onTrue(new OutfeedConeCommand(s_Infeed, s_ModeMem));
-        ShootCube.onTrue(new OutfeedCubeCommand(s_Infeed, s_ModeMem));
+        HighCube.onTrue(new CubeHighCommand(s_Wrist, s_Arm));
+        MidCube.onTrue(new CubeMidCommand(s_Wrist, s_Arm, s_Infeed));
+      
       
         //manual pnuematic and wrist controls
         ArmIn.onTrue(new ArmInCommand(s_Arm));
         ArmOut.onTrue(new ArmOutCommand(s_Arm));
 
+        SlideOut.onTrue(new SlideOutCommand(s_Slide));
+        SlideIn.onTrue(new SlideInCommand(s_Slide));
+
         WristUp.whileTrue(new ManualUpCommand(s_Wrist)).onFalse(new ManualStopCommand(s_Wrist));
         WristDown.whileTrue(new ManualDownCommand(s_Wrist)).onFalse(new ManualStopCommand(s_Wrist));
 
-        ActiveCompressor.whileTrue(new CompressorActiveCommand(s_Compressor)).onFalse(new CompressorIdleCommand(s_Compressor));
+        ActiveCompressor.whileTrue(new CompressorActiveCommand(s_Compressor))
+            .onFalse(new CompressorIdleCommand(s_Compressor));
+
+        Cancel1.onTrue(new InfeedCompCommand(s_Infeed));
+        Cancel1.onTrue(new ManualStopCommand(s_Wrist));
+
+        Cancel2.onTrue(new InfeedCompCommand(s_Infeed));
+        Cancel2.onTrue(new ManualStopCommand(s_Wrist));
+
+
+        if (sensor.get()){
+            sensorTimer.start();
+        }
+
+        if(sensor.get() & sensorTimer.hasElapsed(0.35)){
+            new CompCommand(s_Wrist, s_Arm, s_Infeed);
+            s_Wrist.setSetpoint(Constants.WristConstants.COMP);
+            sensorTimer.reset();
+        }
+
+        
       
     }
 

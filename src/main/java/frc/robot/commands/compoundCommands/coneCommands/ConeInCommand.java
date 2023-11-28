@@ -20,7 +20,7 @@ public class ConeInCommand extends SequentialCommandGroup{
         addCommands(
                 new ArmInCommand(s_Arm),
                 new SlideInCommand(s_Slide),
-                new WaitCommand(0.5),
+                new WaitCommand(0.1),
                 new ParallelCommandGroup(
                     new PIDWristCommand(s_Wrist, WristConstants.CONE_INFEED),
                     new InfeedConeCommand(s_Infeed))

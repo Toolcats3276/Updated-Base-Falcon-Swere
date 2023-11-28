@@ -22,10 +22,10 @@ public final class Constants {
         public static final int INFEED_MOTOR_ID = 16;
 
         public static final double COMP = 0.00;
-        public static final double CONE_IN = -0.75;
-        public static final double CONE_OUT = 0.5;
-        public static final double CUBE_IN = 0.35;
-        public static final double CUBE_OUT = -1.00;
+        public static final double CONE_IN = 0.75;
+        public static final double CONE_OUT = -0.5;
+        public static final double CUBE_IN = -0.35;
+        public static final double CUBE_OUT = 1.00;
     }
 
     public static final class WristConstants {
@@ -35,19 +35,21 @@ public final class Constants {
         public static final double MANUAL_WRIST_UP_SPEED = 0.25;
         public static final double MANUAL_WRIST_DOWN_SPEED = -0.25;
 
-        public static final double WRIST_SETPOINT_MAX = 0.7;
-        public static final double WRIST_SETPOINT_MIN = 0.217;
+        public static final double WRIST_SETPOINT_MAX = 0.88;
+        public static final double WRIST_SETPOINT_MIN = 0.22;
         public static final double WRIST_PID_TOLERANCE = 0.05;
 
-        public static final double COMP = 0.88;
-        public static final double HIGH_CONE = 0.41;
-        public static final double MID_CONE = 0.28;
-        public static final double LOW_CONE = 0.22;
-        public static final double HIGH_CUBE = 0.54;
-        public static final double MID_CUBE = 0.88;
-        public static final double LOW_CUBE = 0.70;
-        public static final double CONE_INFEED = 0.33;
-        public static final double CUBE_INFEED = 0.46;
+        public static final double COMP = 125.00; //0.88
+        public static final double HIGH_CONE = 8.00; //0.41
+        public static final double MID_CONE = -25.00; //0.28
+        public static final double LOW_CONE = 125.00; //same as comp
+
+        public static final double HIGH_CUBE = 57.70; //0.54
+        public static final double MID_CUBE = 125.00; //same as comp
+        public static final double LOW_CUBE = 125.00; //same as comp
+
+        public static final double CONE_INFEED = -14.41; //0.33
+        public static final double CUBE_INFEED = 14.23; //0.44
         
     }
 

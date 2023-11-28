@@ -17,11 +17,10 @@ public class CompCommand extends SequentialCommandGroup{
 
         addCommands(
                 new ArmInCommand(s_Arm),
-                new WaitCommand(0.5),
-                new ParallelCommandGroup(
-                    new PIDWristCommand(s_Wrist, WristConstants.COMP),
-                    new InfeedCompCommand(s_Infeed))
-                );
+                new WaitCommand(0.1),
+                new PIDWristCommand(s_Wrist, WristConstants.COMP),
+                new InfeedCompCommand(s_Infeed));
+            
         addRequirements(s_Wrist, s_Arm, s_Infeed);
     }
     

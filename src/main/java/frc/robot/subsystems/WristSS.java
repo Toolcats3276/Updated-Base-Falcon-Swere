@@ -3,7 +3,10 @@ package frc.robot.subsystems;
 import frc.robot.Constants.WristConstants;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -18,16 +21,20 @@ public class WristSS extends SubsystemBase {
     private CANCoder wristEncoder;
     private AnalogPotentiometer wristPot;
     private PIDController wristPIDController;
+    private SimpleMotorFeedforward wristFFController; 
 
     private double setPoint;
     private double output;
 
-    private double p = 3;
-    private double i = 0;
+    private double g = 0.0656;
+    private double v = 0.0002;
+
+    private double p = 0.025;
+    private double i = 0;   
     private double d = 0;
-    private double ff = 0;
-    private double MAX_OUTPUT = 0.6;
-    private double MIN_OUTPUT = -0.6;
+    private final double MAX_OUTPUT = 0.6;
+
+
 
     public WristSS() {
         m_wristMotor = new TalonFX(WristConstants.WRIST_MOTOR_ID);
@@ -38,10 +45,14 @@ public class WristSS extends SubsystemBase {
 
         wristEncoder = new CANCoder(WristConstants.WRIST_ENCODER_ID);
         wristEncoder.configFactoryDefault();
+        wristEncoder.setPositionToAbsolute();
+        // wristEncoder.setPosition(0);
 
         m_wristMotor.configRemoteFeedbackFilter(wristEncoder, WristConstants.WRIST_ENCODER_ID);
 
         wristPIDController = new PIDController(p, i, d);
+
+        wristFFController = new SimpleMotorFeedforward(g, v);
 
 
 
@@ -61,11 +72,14 @@ public class WristSS extends SubsystemBase {
         
         public void periodic(){
 
+            SmartDashboard.putNumber("potpos", wristEncoder.getPosition());
+            SmartDashboard.putNumber("setpoint", setPoint);
+
                 //  stops motor when encoder position excedes their max and min position (manual mode only)
-            if ((wristEncoder.getPosition() >= WristConstants.WRIST_SETPOINT_MAX && output > 0.0) || 
-                (wristEncoder.getPosition() <= WristConstants.WRIST_SETPOINT_MIN && output > 0.0)) {
-                m_wristMotor.set(TalonFXControlMode.PercentOutput,0);
-                return;}
+            // if ((wristEncoder.getPosition() >= WristConstants.WRIST_SETPOINT_MAX && output > 0.0) || 
+            //     (wristEncoder.getPosition() <= WristConstants.WRIST_SETPOINT_MIN && output > 0.0)) {
+            //     m_wristMotor.set(TalonFXControlMode.PercentOutput,0);
+            //     return;}
 
             switch (WristMode) {
                 case ManualUp:{
@@ -86,26 +100,31 @@ public class WristSS extends SubsystemBase {
                 }
                 case PID:{
                    // m_wristMotor.set(TalonFXControlMode.Position, wristPIDController, setPoint);
+
+                    
                     wristPIDController.setSetpoint(setPoint);
-                    output = MathUtil.clamp(wristPIDController.calculate(wristPot.get(), setPoint), -MAX_OUTPUT, MAX_OUTPUT);
+                    output = MathUtil.clamp(wristPIDController.calculate(wristEncoder.getPosition(), setPoint) + wristFFController.calculate(1, 0.5), -MAX_OUTPUT, MAX_OUTPUT);
 
                     m_wristMotor.set(TalonFXControlMode.PercentOutput, output);
                     
+                    System.out.println(output);
 
-                    System.out.println(wristPIDController.calculate(wristPot.get(), setPoint));
-                    if(Math.abs(wristPot.get() - setPoint) < WristConstants.WRIST_PID_TOLERANCE) {
-                        StopManual();
-                        m_wristMotor.set(TalonFXControlMode.PercentOutput, 0);
-                    }
+                    // if(Math.abs(wristPot.get() - setPoint) < WristConstants.WRIST_PID_TOLERANCE) {
+                    //     StopManual();
+                    //     m_wristMotor.set(TalonFXControlMode.PercentOutput, 0);
+                    // }
                     break;
                 }
 
+                
+
             }
 
-            // SmartDashboard.putNumber("wristPos", wristEncoder.getPosition());
-            // SmartDashboard.putNumber("wristAbsolutePos", wristEncoder.getAbsolutePosition());
-            // SmartDashboard.putNumber("motorEncoderPos", m_wristMotor.getSelectedSensorPosition());
+            SmartDashboard.putNumber("wristPos", wristEncoder.getPosition());
+            SmartDashboard.putNumber("wristAbsolutePos", wristEncoder.getAbsolutePosition());
+            SmartDashboard.putNumber("motorEncoderPos", m_wristMotor.getSelectedSensorPosition());
             SmartDashboard.putNumber("potPos", wristPot.get());
+            SmartDashboard.putNumber("output", output);
             
         }
 
@@ -125,6 +144,11 @@ public class WristSS extends SubsystemBase {
         WristMode = Mode.PID;
         System.out.println("Mode Set");
         wristPIDController.reset();
+    }
+
+    public double returnSetPoint(){
+        this.setPoint = setPoint;
+        return setPoint;
     }
 
 
