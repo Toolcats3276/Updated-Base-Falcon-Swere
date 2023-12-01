@@ -29,9 +29,9 @@ public class WristSS extends SubsystemBase {
     private double g = 0.0656;
     private double v = 0.0002;
 
-    private double p = 0.025;
+    private double p = 0.028;
     private double i = 0;   
-    private double d = 0;
+    private double d = 0.0018;
     private final double MAX_OUTPUT = 0.6;
 
 
@@ -51,8 +51,11 @@ public class WristSS extends SubsystemBase {
         m_wristMotor.configRemoteFeedbackFilter(wristEncoder, WristConstants.WRIST_ENCODER_ID);
 
         wristPIDController = new PIDController(p, i, d);
+        wristPIDController.setTolerance(1.5);
 
         wristFFController = new SimpleMotorFeedforward(g, v);
+
+
 
 
 
@@ -107,7 +110,8 @@ public class WristSS extends SubsystemBase {
 
                     m_wristMotor.set(TalonFXControlMode.PercentOutput, output);
                     
-                    System.out.println(output);
+                    // System.out.println(output);
+                    // System.out.println(setPoint);
 
                     // if(Math.abs(wristPot.get() - setPoint) < WristConstants.WRIST_PID_TOLERANCE) {
                     //     StopManual();
@@ -147,7 +151,7 @@ public class WristSS extends SubsystemBase {
     }
 
     public double returnSetPoint(){
-        this.setPoint = setPoint;
+        System.out.println(setPoint);
         return setPoint;
     }
 

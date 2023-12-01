@@ -17,6 +17,7 @@ public class CubeMidCommand extends SequentialCommandGroup{
     public CubeMidCommand(WristSS s_Wrist, ArmSS s_Arm, InfeedSS s_Infeed) {
 
         addCommands(
+                new InfeedCompCommand(s_Infeed),
                 new ArmInCommand(s_Arm),
                 new WaitCommand(0.5),
                 new PIDWristCommand(s_Wrist, WristConstants.MID_CUBE),

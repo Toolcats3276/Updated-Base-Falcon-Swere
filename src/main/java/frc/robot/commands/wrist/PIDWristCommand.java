@@ -1,12 +1,16 @@
 package frc.robot.commands.wrist;
 
+import edu.wpi.first.wpilibj.event.BooleanEvent;
+import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.WristConstants;
 import frc.robot.subsystems.WristSS;
 
 public class PIDWristCommand extends CommandBase {
     
     private WristSS s_Wrist;
     private double setPoint;
+
 
 
     public PIDWristCommand(WristSS Wrist, double setPoint) {

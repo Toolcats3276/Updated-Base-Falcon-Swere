@@ -1,6 +1,8 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.AnalogTrigger;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
@@ -16,16 +18,19 @@ import frc.robot.commands.compoundCommands.CompCommand;
 import frc.robot.commands.compoundCommands.coneCommands.ConeHighCommand;
 import frc.robot.commands.compoundCommands.coneCommands.ConeInCommand;
 import frc.robot.commands.compoundCommands.coneCommands.ConeMidCommand;
+import frc.robot.commands.compoundCommands.coneCommands.StoreConeCommand;
 import frc.robot.commands.compoundCommands.cubeCommands.CubeHighCommand;
 import frc.robot.commands.compoundCommands.cubeCommands.CubeInCommand;
 import frc.robot.commands.compoundCommands.cubeCommands.CubeLowCommand;
 import frc.robot.commands.compoundCommands.cubeCommands.CubeMidCommand;
+import frc.robot.commands.compoundCommands.cubeCommands.StoreCubeCommand;
 import frc.robot.commands.infeed.InfeedCompCommand;
 import frc.robot.commands.infeed.InfeedConeCommand;
 import frc.robot.commands.infeed.InfeedCubeCommand;
 import frc.robot.commands.infeed.OutfeedConeCommand;
 import frc.robot.commands.infeed.OutfeedCubeCommand;
-
+import frc.robot.commands.infeed.SlowConeCommand;
+import frc.robot.commands.infeed.SlowCubeCommand;
 import frc.robot.commands.pnuematic.ArmInCommand;
 import frc.robot.commands.pnuematic.ArmOutCommand;
 import frc.robot.commands.pnuematic.CompressorActiveCommand;
@@ -35,6 +40,7 @@ import frc.robot.commands.pnuematic.SlideOutCommand;
 import frc.robot.commands.wrist.ManualDownCommand;
 import frc.robot.commands.wrist.ManualStopCommand;
 import frc.robot.commands.wrist.ManualUpCommand;
+import frc.robot.subsystems.SensorSS;
 
 import frc.robot.subsystems.*;
 
@@ -53,13 +59,13 @@ public class RobotContainer {
     private final CompressorSS s_Compressor = new CompressorSS();
     private final WristSS s_Wrist = new WristSS();
     private final SlideSS s_Slide = new SlideSS();
+    private final SensorSS s_Sensor = new SensorSS();
 
     /* Controllers */
     private final Joystick m_driveController = new Joystick(0);
     private final Joystick m_flightStick = new Joystick(1);
 
-    private final DigitalInput sensor = new DigitalInput(0);
-    private final Timer sensorTimer = new Timer();
+    // private final DigitalInput sensor = new DigitalInput(0);
 
     /* Drive Controls */
     private final int translationAxis = Joystick.AxisType.kY.value;
@@ -71,7 +77,7 @@ public class RobotContainer {
     private final JoystickButton zeroGyro = new JoystickButton(m_driveController, 14);
     private final JoystickButton robotCentric = new JoystickButton(m_driveController, 0);
 
-     
+    // private final Trigger sensorTrigger = new Trigger(() -> sensor.get());
     
     private final JoystickButton Comp = new JoystickButton(m_driveController,2);
     private final JoystickButton ConeIn = new JoystickButton(m_driveController,7);
@@ -79,12 +85,13 @@ public class RobotContainer {
     
     private final JoystickButton HighCone = new JoystickButton(m_driveController,3);
     private final JoystickButton MidCone = new JoystickButton(m_driveController,10);
+    private final JoystickButton LowCone = new JoystickButton(m_driveController,8);
 
     private final JoystickButton HighCube = new JoystickButton(m_driveController,4);
-    private final JoystickButton MidCube = new JoystickButton(m_driveController,0);
+    // private final JoystickButton MidCube = new JoystickButton(m_driveController,0);
+    private final JoystickButton LowCube = new JoystickButton(m_driveController,9);
 
     private final JoystickButton Shoot = new JoystickButton(m_driveController,1);
-
 
     private final JoystickButton ArmIn = new JoystickButton(m_flightStick, 6);
     private final JoystickButton ArmOut = new JoystickButton(m_flightStick, 5);
@@ -106,9 +113,9 @@ public class RobotContainer {
             new TeleopSwerve(
                 s_Swerve, 
 
-                () -> Math.pow(m_driveController.getRawAxis(translationAxis), 1)/2,
-                () -> Math.pow(m_driveController.getRawAxis(strafeAxis), 1)/2, 
-                () -> Math.pow(m_driveController.getRawAxis(rotationAxis), 1)/2, 
+                () -> m_driveController.getRawAxis(translationAxis),
+                () -> m_driveController.getRawAxis(strafeAxis),
+                () -> m_driveController.getRawAxis(rotationAxis), 
                 () -> robotCentric.getAsBoolean()
             )
         );
@@ -124,37 +131,40 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
+
         /* Drive Controller Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
-        //shoots game pieces when the setpoint is correct and trigger is pushed
-        if(s_Wrist.returnSetPoint() == Constants.WristConstants.HIGH_CONE & Shoot.getAsBoolean());{
-            new OutfeedConeCommand(s_Infeed);
-        }
+        // ConeIn.and
+        //     (sensorTrigger.debounce(0.1).onTrue(new StoreConeCommand(s_Wrist, s_Arm, s_Infeed, s_Slide)));
+        // CubeIn.and
+        //     (sensorTrigger.debounce(0.1).onTrue(new StoreCubeCommand(s_Wrist, s_Arm, s_Infeed, s_Slide)));
 
-        if(s_Wrist.returnSetPoint() == Constants.WristConstants.MID_CONE & Shoot.getAsBoolean());{
-            new OutfeedConeCommand(s_Infeed);
-        }
+        //shoots game pieces when the highcone and shoot button are pressed
+        Shoot.onTrue(new ScoringCommand(s_Wrist, rotationAxis, s_Infeed));
+        // HighCone.and
+        //     (Shoot.onTrue(new OutfeedConeCommand(s_Infeed))); 
+        // MidCone.and
+        //     (Shoot.onTrue(new OutfeedConeCommand(s_Infeed)));
 
-        if(s_Wrist.returnSetPoint() == Constants.WristConstants.HIGH_CUBE & Shoot.getAsBoolean());{
-            new OutfeedCubeCommand(s_Infeed);
-        }
-
-        if(s_Wrist.returnSetPoint() == Constants.WristConstants.MID_CUBE & Shoot.getAsBoolean());{
-            new OutfeedCubeCommand(s_Infeed);
-        }
+        // HighCube.and
+        //     (Shoot.onTrue(new OutfeedCubeCommand(s_Infeed)));
+        // Comp.and
+        //     (Shoot.onTrue(new OutfeedCubeCommand(s_Infeed)));
 
         //moves wrist and arms to position and sets motorspeed
-        Comp.onTrue(new CompCommand(s_Wrist, s_Arm, s_Infeed));
-        ConeIn.onTrue(new ConeInCommand(s_Wrist, s_Arm, s_Infeed, s_Slide));
-        CubeIn.onTrue(new CubeInCommand(s_Wrist, s_Arm, s_Infeed));
+        Comp.onTrue(new CompCommand(s_Wrist, s_Arm, s_Infeed, s_Slide));
+        ConeIn.onTrue(new ConeInCommand(s_Wrist, s_Arm, s_Infeed, s_Slide, s_Sensor));
+        CubeIn.onTrue(new CubeInCommand(s_Wrist, s_Arm, s_Infeed, s_Sensor));
         
         //sets wrist and arms to position and sets mode memory
-        HighCone.onTrue(new ConeHighCommand(s_Wrist, s_Arm, s_Slide));
-        MidCone.onTrue(new ConeMidCommand(s_Wrist, s_Arm));
+        HighCone.onTrue(new ConeHighCommand(s_Wrist, s_Arm, s_Slide, s_Infeed));
+        MidCone.onTrue(new ConeMidCommand(s_Wrist, s_Arm, s_Infeed));
+        LowCone.onTrue(new SlowConeCommand(s_Infeed));
 
-        HighCube.onTrue(new CubeHighCommand(s_Wrist, s_Arm));
-        MidCube.onTrue(new CubeMidCommand(s_Wrist, s_Arm, s_Infeed));
+        HighCube.onTrue(new CubeHighCommand(s_Wrist, s_Arm, s_Infeed));
+        // MidCube.onTrue(new CubeMidCommand(s_Wrist, s_Arm, s_Infeed));
+        LowCube.onTrue(new SlowCubeCommand(s_Infeed));
       
       
         //manual pnuematic and wrist controls
@@ -170,24 +180,11 @@ public class RobotContainer {
         ActiveCompressor.whileTrue(new CompressorActiveCommand(s_Compressor))
             .onFalse(new CompressorIdleCommand(s_Compressor));
 
-        Cancel1.onTrue(new InfeedCompCommand(s_Infeed));
-        Cancel1.onTrue(new ManualStopCommand(s_Wrist));
+        Cancel1.onTrue(new InfeedCompCommand(s_Infeed))
+            .onTrue(new ManualStopCommand(s_Wrist));
 
-        Cancel2.onTrue(new InfeedCompCommand(s_Infeed));
-        Cancel2.onTrue(new ManualStopCommand(s_Wrist));
-
-
-        if (sensor.get()){
-            sensorTimer.start();
-        }
-
-        if(sensor.get() & sensorTimer.hasElapsed(0.35)){
-            new CompCommand(s_Wrist, s_Arm, s_Infeed);
-            s_Wrist.setSetpoint(Constants.WristConstants.COMP);
-            sensorTimer.reset();
-        }
-
-        
+        Cancel2.onTrue(new InfeedCompCommand(s_Infeed))
+            .onTrue(new ManualStopCommand(s_Wrist));
       
     }
 

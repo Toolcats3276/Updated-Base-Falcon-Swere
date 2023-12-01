@@ -24,8 +24,11 @@ public final class Constants {
         public static final double COMP = 0.00;
         public static final double CONE_IN = 0.75;
         public static final double CONE_OUT = -0.5;
-        public static final double CUBE_IN = -0.35;
+        public static final double SLOW_CONE_OUT = -0.2;
+        public static final double CUBE_IN = -0.7;
         public static final double CUBE_OUT = 1.00;
+        public static final double SLOW_CUBE_OUT = 0.2;
+
     }
 
     public static final class WristConstants {

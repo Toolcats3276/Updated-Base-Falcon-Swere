@@ -1,4 +1,4 @@
-package frc.robot.commands.compoundCommands;
+package frc.robot.commands.compoundCommands.cubeCommands;
 
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Constants.WristConstants;
@@ -12,17 +12,20 @@ import frc.robot.subsystems.WristSS;
 
 import static frc.robot.Constants.WristConstants;
 
-public class CompCommand extends SequentialCommandGroup{
+public class StoreCubeCommand extends SequentialCommandGroup{
 
     
-    public CompCommand(WristSS s_Wrist, ArmSS s_Arm, InfeedSS s_Infeed, SlideSS s_Slide) {
+    public StoreCubeCommand(WristSS s_Wrist, ArmSS s_Arm, InfeedSS s_Infeed, SlideSS s_Slide) {
 
         addCommands(
-                new ArmInCommand(s_Arm),
+                new WaitCommand(0.15),
                 new SlideInCommand(s_Slide),
+                new ArmInCommand(s_Arm),
                 new WaitCommand(0.1), 
-                new InfeedCompCommand(s_Infeed),
-                new PIDWristCommand(s_Wrist, WristConstants.COMP)
+                new ParallelCommandGroup(
+                    new InfeedCompCommand(s_Infeed),
+                    new PIDWristCommand(s_Wrist, WristConstants.COMP)
+                )
         );
                
             

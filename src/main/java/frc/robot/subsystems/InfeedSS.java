@@ -35,6 +35,7 @@ public class InfeedSS extends SubsystemBase {
         ConeOut,
         CubeIn,
         CubeOut,
+        SetSpeed,
     }
 
     Mode InfeedMode = Mode.Comp;
@@ -73,6 +74,10 @@ public class InfeedSS extends SubsystemBase {
                 m_infeedMotor.set(TalonFXControlMode.PercentOutput, InfeedConstants.CUBE_OUT);
                 break;
             }
+
+            case SetSpeed:{
+                m_infeedMotor.set(TalonFXControlMode.PercentOutput, speed);
+            }
         }
 
         SmartDashboard.getNumber("InfeedSpeed",m_infeedMotor.getMotorOutputPercent());
@@ -96,6 +101,11 @@ public class InfeedSS extends SubsystemBase {
     
     public void CubeOut(){
         InfeedMode = Mode.CubeOut;
+    }
+
+    public void setSpeed(double speed){
+    this.speed = speed;
+    InfeedMode = Mode.SetSpeed;
     }
     
 }

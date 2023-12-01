@@ -1,15 +1,22 @@
 package frc.robot.commands.infeed;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.WristConstants;
 import frc.robot.subsystems.InfeedSS;
+import frc.robot.subsystems.SensorSS;
+import frc.robot.subsystems.WristSS;
 
 public class InfeedConeCommand extends CommandBase {
     
     private InfeedSS s_Infeed;
+    private SensorSS s_Sensor;
+    private WristSS s_Wrist;
 
 
-    public InfeedConeCommand(InfeedSS Infeed) {
-        this.s_Infeed = Infeed;
+    public InfeedConeCommand(InfeedSS s_Infeed, SensorSS s_Sensor, WristSS s_Wrist) {
+        this.s_Infeed = s_Infeed;
+        this.s_Sensor = s_Sensor;
+        this.s_Wrist = s_Wrist;
         addRequirements(s_Infeed);
     }
 
@@ -20,16 +27,33 @@ public class InfeedConeCommand extends CommandBase {
 
     @Override
     public void execute() {
+        if(s_Sensor.isTriggered()){
+            s_Sensor.TimerStart();
+        }
+
     }
 
     @Override
     public void end(boolean interrupted) {
-        
-    }
+            s_Wrist.setSetpoint(WristConstants.COMP);
+            s_Infeed.Comp();
+        }
+
 
     @Override
     public boolean isFinished() {
-        return true;
+        if(s_Sensor.isTriggered() && s_Sensor.hasElapsed(0.5)){
+            s_Sensor.TimerReset();
+            return true; 
+        }
+    
+        else{
+            return false;
+        }
+
+
+        
+        }
     }
     
-}
+
