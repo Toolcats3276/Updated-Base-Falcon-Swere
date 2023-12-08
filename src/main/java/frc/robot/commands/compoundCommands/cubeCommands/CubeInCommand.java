@@ -9,22 +9,22 @@ import frc.robot.commands.wrist.*;
 import frc.robot.subsystems.ArmSS;
 import frc.robot.subsystems.InfeedSS;
 import frc.robot.subsystems.WristSS;
-import frc.robot.subsystems.SensorSS;
+// import frc.robot.subsystems.SensorSS;
 
 
 public class CubeInCommand extends SequentialCommandGroup{
 
     
-    public CubeInCommand(WristSS s_Wrist, ArmSS s_Arm, InfeedSS s_Infeed, SensorSS s_Sensor) {
+    public CubeInCommand(WristSS s_Wrist, ArmSS s_Arm, InfeedSS s_Infeed) {
 
         addCommands(
                 new ArmInCommand(s_Arm),
-                // new WaitCommand(0.5),
+                new WaitCommand(0.2),
                 new ParallelCommandGroup(
-                    new InfeedCubeCommand(s_Infeed, s_Sensor, s_Wrist),
+                    new InfeedCubeCommand(s_Infeed, s_Wrist),
                     new PIDWristCommand(s_Wrist, WristConstants.CUBE_INFEED))
                 );
-        addRequirements(s_Wrist, s_Arm, s_Infeed, s_Sensor);
+        addRequirements(s_Wrist, s_Arm, s_Infeed);
     }
     
     

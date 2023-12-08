@@ -155,6 +155,10 @@ public class WristSS extends SubsystemBase {
         return setPoint;
     }
 
+    public double returnPostition(){
+        return wristEncoder.getPosition();
+    }
+
 
     public void BrakeWrist(){
         m_wristMotor.configFactoryDefault();

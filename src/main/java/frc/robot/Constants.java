@@ -44,15 +44,15 @@ public final class Constants {
 
         public static final double COMP = 125.00; //0.88
         public static final double HIGH_CONE = 8.00; //0.41
-        public static final double MID_CONE = -25.00; //0.28
+        public static final double MID_CONE = -30.00; //0.28
         public static final double LOW_CONE = 125.00; //same as comp
 
         public static final double HIGH_CUBE = 57.70; //0.54
         public static final double MID_CUBE = 125.00; //same as comp
         public static final double LOW_CUBE = 125.00; //same as comp
 
-        public static final double CONE_INFEED = -14.41; //0.33
-        public static final double CUBE_INFEED = 14.23; //0.44
+        public static final double CONE_INFEED = -14.41; //-14.41
+        public static final double CUBE_INFEED = 14.23; //14.23
         
     }
 

@@ -18,7 +18,7 @@ public class StoreConeCommand extends SequentialCommandGroup{
     public StoreConeCommand(WristSS s_Wrist, ArmSS s_Arm, InfeedSS s_Infeed, SlideSS s_Slide) {
 
         addCommands(
-                new WaitCommand(0.4),
+                new WaitCommand(0.3),
                 new SlideInCommand(s_Slide),
                 new ArmInCommand(s_Arm),
                 new WaitCommand(0.1), 

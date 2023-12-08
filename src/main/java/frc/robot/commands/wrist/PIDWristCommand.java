@@ -33,12 +33,12 @@ public class PIDWristCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        s_Wrist.StopManual();
+      
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
     
 }
