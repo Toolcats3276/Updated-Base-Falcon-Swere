@@ -68,6 +68,8 @@ public final class Constants {
 
         public static final int IN_CHANNEL = 3;
         public static final int OUT_CHANNEL = 4;
+        public static final int SLIDE_IN_CHANNEL = 6;
+        public static final int SLIDE_OUT_CHANNEL = 7;
     }
 
     public static final class Swerve {

@@ -17,7 +17,7 @@ public class StoreCubeCCmd extends SequentialCommandGroup{
     public StoreCubeCCmd(WristSS s_Wrist, ArmSS s_Arm, InfeedSS s_Infeed, SlideSS s_Slide) {
 
         addCommands(
-                new WaitCommand(0.15),
+                // new WaitCommand(0.1),
                 new SlideInCmd(s_Slide),
                 new ArmInCmd(s_Arm),
                 new WaitCommand(0.1), 

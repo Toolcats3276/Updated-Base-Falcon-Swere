@@ -72,8 +72,6 @@ public class WristSS extends SubsystemBase {
         
         public void periodic(){
 
-            SmartDashboard.putNumber("potpos", wristEncoder.getPosition());
-            SmartDashboard.putNumber("setpoint", setPoint);
 
                 //  stops motor when encoder position excedes their max and min position (manual mode only)
             // if ((wristEncoder.getPosition() >= WristConstants.WRIST_SETPOINT_MAX && output > 0.0) || 
@@ -113,9 +111,9 @@ public class WristSS extends SubsystemBase {
 
             SmartDashboard.putNumber("wristPos", wristEncoder.getPosition());
             SmartDashboard.putNumber("wristAbsolutePos", wristEncoder.getAbsolutePosition());
-            SmartDashboard.putNumber("motorEncoderPos", m_wristMotor.getSelectedSensorPosition());
-            SmartDashboard.putNumber("potPos", wristPot.get());
             SmartDashboard.putNumber("output", output);
+            SmartDashboard.putNumber("setpoint", setPoint);
+
             
         }
 

@@ -11,7 +11,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SlideSS extends SubsystemBase{
     
-    DoubleSolenoid slideDoublePH = new DoubleSolenoid(PneumaticConstants.SOLENOID_ID, PneumaticsModuleType.REVPH, 7, 6);
+    DoubleSolenoid slideDoublePH;
+
+    public SlideSS() {
+      slideDoublePH = new DoubleSolenoid(PneumaticConstants.SOLENOID_ID, PneumaticsModuleType.REVPH, PneumaticConstants.SLIDE_OUT_CHANNEL, PneumaticConstants.SLIDE_IN_CHANNEL);
+    }
 
     public enum Mode{
       In,

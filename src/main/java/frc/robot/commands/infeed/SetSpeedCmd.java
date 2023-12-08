@@ -1,6 +1,5 @@
 package frc.robot.commands.infeed;
 
-import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.InfeedSS;
 
@@ -8,7 +7,6 @@ public class SetSpeedCmd extends CommandBase {
     
     private InfeedSS s_Infeed;
     private double speed;
-    private final EventLoop m_loop = new EventLoop();
 
 
     public SetSpeedCmd(InfeedSS s_Infeed, double speed) {
