@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj.AnalogTrigger;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
@@ -8,7 +10,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -37,11 +41,11 @@ import frc.robot.commands.pnuematic.CompressorActiveCommand;
 import frc.robot.commands.pnuematic.CompressorIdleCommand;
 import frc.robot.commands.pnuematic.SlideInCommand;
 import frc.robot.commands.pnuematic.SlideOutCommand;
+// import frc.robot.commands.wrist.InfeedCommand;
 import frc.robot.commands.wrist.ManualDownCommand;
 import frc.robot.commands.wrist.ManualStopCommand;
 import frc.robot.commands.wrist.ManualUpCommand;
-import frc.robot.subsystems.SensorSS;
-
+// import frc.robot.subsystems.SensorSS;
 import frc.robot.subsystems.*;
 
 /**
@@ -59,13 +63,16 @@ public class RobotContainer {
     private final CompressorSS s_Compressor = new CompressorSS();
     private final WristSS s_Wrist = new WristSS();
     private final SlideSS s_Slide = new SlideSS();
-    private final SensorSS s_Sensor = new SensorSS();
+    // private final SensorSS s_Sensor = new SensorSS();
+
+
 
     /* Controllers */
     private final Joystick m_driveController = new Joystick(0);
     private final Joystick m_flightStick = new Joystick(1);
 
-    // private final DigitalInput sensor = new DigitalInput(0);
+    private final DigitalInput sensor = new DigitalInput(0);
+    private final Timer sensorTimer = new Timer();
 
     /* Drive Controls */
     private final int translationAxis = Joystick.AxisType.kY.value;
@@ -77,7 +84,9 @@ public class RobotContainer {
     private final JoystickButton zeroGyro = new JoystickButton(m_driveController, 14);
     private final JoystickButton robotCentric = new JoystickButton(m_driveController, 0);
 
-    // private final Trigger sensorTrigger = new Trigger(() -> sensor.get());
+    private final Trigger sensorTrigger = new Trigger(() -> sensor.get());
+
+    private final Trigger negateSensorTrigger = new Trigger(() -> ! sensor.get());
     
     private final JoystickButton Comp = new JoystickButton(m_driveController,2);
     private final JoystickButton ConeIn = new JoystickButton(m_driveController,7);
@@ -120,9 +129,17 @@ public class RobotContainer {
             )
         );
 
+        // s_Infeed.setDefaultCommand(new InfeedCompCommand(s_Infeed));
+        // s_Arm.setDefaultCommand(new ArmInCommand(s_Arm));
+        // s_Compressor.setDefaultCommand(new CompressorIdleCommand(s_Compressor));
+        // s_Wrist.setDefaultCommand(new ManualStopCommand(s_Wrist));
+        // s_Slide.setDefaultCommand(new SlideInCommand(s_Slide));
+
         // Configure the button bindings
         configureButtonBindings();
+        // periodic();
     }
+    
 
     /**
      * Use this method to define your button->command mappings. Buttons can be created by
@@ -130,34 +147,32 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
+
     private void configureButtonBindings() {
 
         /* Drive Controller Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
-        // ConeIn.and
-        //     (sensorTrigger.debounce(0.1).onTrue(new StoreConeCommand(s_Wrist, s_Arm, s_Infeed, s_Slide)));
-        // CubeIn.and
-        //     (sensorTrigger.debounce(0.1).onTrue(new StoreCubeCommand(s_Wrist, s_Arm, s_Infeed, s_Slide)));
-
         //shoots game pieces when the highcone and shoot button are pressed
         Shoot.onTrue(new ScoringCommand(s_Wrist, rotationAxis, s_Infeed));
-        // HighCone.and
-        //     (Shoot.onTrue(new OutfeedConeCommand(s_Infeed))); 
-        // MidCone.and
-        //     (Shoot.onTrue(new OutfeedConeCommand(s_Infeed)));
-
-        // HighCube.and
-        //     (Shoot.onTrue(new OutfeedCubeCommand(s_Infeed)));
-        // Comp.and
-        //     (Shoot.onTrue(new OutfeedCubeCommand(s_Infeed)));
 
         //moves wrist and arms to position and sets motorspeed
         Comp.onTrue(new CompCommand(s_Wrist, s_Arm, s_Infeed, s_Slide));
-        ConeIn.onTrue(new ConeInCommand(s_Wrist, s_Arm, s_Infeed, s_Slide, s_Sensor));
-        CubeIn.onTrue(new CubeInCommand(s_Wrist, s_Arm, s_Infeed, s_Sensor));
+
+        ConeIn.onTrue(new RepeatCommand(
+            new ConditionalCommand(
+                new StoreConeCommand(s_Wrist, s_Arm, s_Infeed, s_Slide), 
+                new ConeInCommand(s_Wrist, s_Arm, s_Infeed, s_Slide),
+                () -> sensorTrigger.getAsBoolean())));
+            // .onFalse(new CompCommand(s_Wrist, s_Arm, s_Infeed, s_Slide));
         
-        //sets wrist and arms to position and sets mode memory
+        CubeIn.onTrue(new RepeatCommand(
+            new ConditionalCommand(
+                new StoreCubeCommand(s_Wrist, s_Arm, s_Infeed, s_Slide), 
+                new CubeInCommand(s_Wrist, s_Arm, s_Infeed),
+                () -> sensorTrigger.getAsBoolean())));
+            // .onFalse(new CompCommand(s_Wrist, s_Arm, s_Infeed, s_Slide));
+
         HighCone.onTrue(new ConeHighCommand(s_Wrist, s_Arm, s_Slide, s_Infeed));
         MidCone.onTrue(new ConeMidCommand(s_Wrist, s_Arm, s_Infeed));
         LowCone.onTrue(new SlowConeCommand(s_Infeed));
@@ -174,8 +189,10 @@ public class RobotContainer {
         SlideOut.onTrue(new SlideOutCommand(s_Slide));
         SlideIn.onTrue(new SlideInCommand(s_Slide));
 
-        WristUp.whileTrue(new ManualUpCommand(s_Wrist)).onFalse(new ManualStopCommand(s_Wrist));
-        WristDown.whileTrue(new ManualDownCommand(s_Wrist)).onFalse(new ManualStopCommand(s_Wrist));
+        WristUp.whileTrue(new ManualUpCommand(s_Wrist))
+            .onFalse(new ManualStopCommand(s_Wrist));
+        WristDown.whileTrue(new ManualDownCommand(s_Wrist))
+            .onFalse(new ManualStopCommand(s_Wrist));
 
         ActiveCompressor.whileTrue(new CompressorActiveCommand(s_Compressor))
             .onFalse(new CompressorIdleCommand(s_Compressor));
@@ -187,6 +204,27 @@ public class RobotContainer {
             .onTrue(new ManualStopCommand(s_Wrist));
       
     }
+
+
+
+    
+    // public void periodic() {
+    //     System.out.println("periodic");
+    //     if(sensorTrigger.getAsBoolean()){
+    //         sensorTimer.start();
+    //         System.out.println("start");
+    //     }
+
+    //     if(HighCone.getAsBoolean()){
+    //         new ConeHighCommand(s_Wrist, s_Arm, s_Slide, s_Infeed);
+    //     }
+    //     else if(ConeIn.getAsBoolean() && sensorTrigger.getAsBoolean() && sensorTimer.hasElapsed(0.1)){
+    //         new CompCommand(s_Wrist, s_Arm, s_Infeed, s_Slide);
+    //         sensorTimer.reset();
+    //     }
+        
+    
+    // }
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.

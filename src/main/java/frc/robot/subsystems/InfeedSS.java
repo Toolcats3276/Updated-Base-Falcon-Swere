@@ -107,5 +107,7 @@ public class InfeedSS extends SubsystemBase {
     this.speed = speed;
     InfeedMode = Mode.SetSpeed;
     }
+
+    
     
 }
