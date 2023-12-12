@@ -16,18 +16,18 @@ public class ArmSS extends SubsystemBase{
     
     DoubleSolenoid armDoublePH = new DoubleSolenoid(PneumaticConstants.SOLENOID_ID, PneumaticsModuleType.REVPH, PneumaticConstants.OUT_CHANNEL, PneumaticConstants.IN_CHANNEL);
 
-    public enum State{
+    public enum Mode{
       In,
       Out,
       Toggle,
       Neutral;
     }
 
-    State ArmState = State.In;
+    Mode ArmMode = Mode.In;
 
     @Override
     public void periodic(){
-        switch (ArmState) {
+        switch (ArmMode) {
             case In:{
             armDoublePH.set(Value.kReverse);}
             break;
@@ -44,7 +44,7 @@ public class ArmSS extends SubsystemBase{
             } else if (value == Value.kReverse) {
               armDoublePH.set(Value.kForward);
             }  
-            ArmState = State.Neutral;
+            ArmMode = Mode.Neutral;
             break;
             }
             
@@ -57,15 +57,15 @@ public class ArmSS extends SubsystemBase{
 
 
     public void In(){
-        ArmState = State.In;
+      ArmMode = Mode.In;
     }
 
     public void Out(){
-        ArmState = State.Out;
+      ArmMode = Mode.Out;
     }
     
     public void Toggle(){
-        ArmState = State.Toggle;
+      ArmMode = Mode.Toggle;
     }
 
 

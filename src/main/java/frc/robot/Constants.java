@@ -14,9 +14,46 @@ import frc.lib.util.SwerveModuleConstants;
 public final class Constants {
     public static final double stickDeadband = 0.00005;
 
+
+
+    //infeed motor speeds
+    public static final class InfeedConstants{
+
+        public static final int INFEED_MOTOR_ID = 16;
+
+        public static final double COMP = 0.00;
+        public static final double CONE_IN = -0.75;
+        public static final double CONE_OUT = 0.5;
+        public static final double CUBE_IN = 0.35;
+        public static final double CUBE_OUT = -1.00;
+    }
+
+    public static final class WristConstants {
+        public static final int WRIST_MOTOR_ID = 15;
+        public static final int WRIST_ENCODER_ID = 17;
+
+        public static final double MANUAL_WRIST_UP_SPEED = 0.25;
+        public static final double MANUAL_WRIST_DOWN_SPEED = -0.25;
+
+        public static final double WRIST_SETPOINT_MAX = 0.7;
+        public static final double WRIST_SETPOINT_MIN = 0.217;
+        public static final double WRIST_PID_TOLERANCE = 0.00;
+
+        public static final double COMP = 0.70;
+        public static final double HIGH_CONE = 0.28;//0.37
+        public static final double MID_CONE = 0.22;
+        public static final double LOW_CONE = 0.22;
+        public static final double HIGH_CUBE = 0.44;
+        public static final double MID_CUBE = 0.70;
+        public static final double LOW_CUBE = 0.70;
+        public static final double CONE_INFEED = 0.22;
+        public static final double CUBE_INFEED = 0.32;
+        
+    }
+
     public static final class PneumaticConstants {
 
-        public static final int COMPRESSOT_ID = 50;
+        public static final int COMPRESSOR_ID = 50;
         public static final int SOLENOID_ID = 50;
 
         public static final int MIN_IDLE_PRESSURE = 0;
@@ -32,13 +69,15 @@ public final class Constants {
         public static final int pigeonID = 10;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
-        public static final COTSFalconSwerveConstants chosenModule =
+
+        public static final COTSFalconSwerveConstants chosenModule =  
             COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);
 
         /* Drivetrain Constants */
-        public static final double trackWidth = Units.inchesToMeters(22);
-        public static final double wheelBase = Units.inchesToMeters(22);
+        public static final double trackWidth = Units.inchesToMeters(22); 
+        public static final double wheelBase = Units.inchesToMeters(22); 
         public static final double wheelCircumference = chosenModule.wheelCircumference;
+
 
         /* Swerve Kinematics 
          * No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve */
@@ -95,7 +134,8 @@ public final class Constants {
 
         /* Swerve Profiling Values */
         /** Meters per Second */
-        public static final double maxSpeed = 5; //TODO: This must be tuned to specific robot
+        public static final double maxSpeed = 5;
+
         /** Radians per Second */
         public static final double maxAngularVelocity = 12; //TODO: This must be tuned to specific robot
 
@@ -160,4 +200,5 @@ public final class Constants {
             new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
     }
+
 }
