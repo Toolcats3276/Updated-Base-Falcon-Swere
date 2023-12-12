@@ -4,7 +4,6 @@ import frc.robot.Constants.WristConstants;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -17,7 +16,6 @@ public class WristSS extends SubsystemBase {
 
     private TalonFX m_wristMotor;
     private CANCoder wristEncoder;
-    private AnalogPotentiometer wristPot;
     private PIDController wristPIDController;
     private SimpleMotorFeedforward wristFFController; 
 
@@ -38,8 +36,6 @@ public class WristSS extends SubsystemBase {
         m_wristMotor = new TalonFX(WristConstants.WRIST_MOTOR_ID);
         m_wristMotor.configFactoryDefault();
         m_wristMotor.setNeutralMode(NeutralMode.Brake);
-
-        wristPot = new AnalogPotentiometer(0);
 
         wristEncoder = new CANCoder(WristConstants.WRIST_ENCODER_ID);
         wristEncoder.configFactoryDefault();

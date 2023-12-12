@@ -14,7 +14,7 @@ public class SensorSS extends SubsystemBase{
 
    public SensorSS() {
     sensor = new DigitalInput(0);
-    m_debouncer = new Debouncer(.5, DebounceType.kBoth);
+    m_debouncer = new Debouncer(.5, DebounceType.kBoth);//.5
    }
 
 
