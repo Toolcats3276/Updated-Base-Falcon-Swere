@@ -3,13 +3,14 @@ package frc.robot.commands.wrist;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.WristSS;
 
-public class PIDWristCommand extends CommandBase {
+public class PIDWristCmd extends CommandBase {
     
     private WristSS s_Wrist;
     private double setPoint;
 
 
-    public PIDWristCommand(WristSS Wrist, double setPoint) {
+
+    public PIDWristCmd(WristSS Wrist, double setPoint) {
         this.s_Wrist = Wrist;
         this.setPoint = setPoint;
         addRequirements(s_Wrist);
@@ -29,12 +30,12 @@ public class PIDWristCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        s_Wrist.StopManual();
+      
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
     
 }

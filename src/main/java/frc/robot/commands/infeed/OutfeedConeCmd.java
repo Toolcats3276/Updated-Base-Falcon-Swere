@@ -1,21 +1,21 @@
-package frc.robot.commands.wrist;
+package frc.robot.commands.infeed;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.WristSS;
+import frc.robot.subsystems.InfeedSS;
 
-public class ManualUpCommand extends CommandBase {
+public class OutfeedConeCmd extends CommandBase {
     
-    private WristSS s_Wrist;
+    private InfeedSS s_Infeed;
 
 
-    public ManualUpCommand(WristSS Wrist) {
-        this.s_Wrist = Wrist;
-        addRequirements(s_Wrist);
+    public OutfeedConeCmd(InfeedSS s_Infeed) {
+        this.s_Infeed = s_Infeed;
+        addRequirements(s_Infeed);
     }
 
     @Override
     public void initialize() {
-        s_Wrist.UpManual();
+        s_Infeed.ConeOut();
     }
 
     @Override

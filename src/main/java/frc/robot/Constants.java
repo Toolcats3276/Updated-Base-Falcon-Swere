@@ -22,10 +22,13 @@ public final class Constants {
         public static final int INFEED_MOTOR_ID = 16;
 
         public static final double COMP = 0.00;
-        public static final double CONE_IN = -0.75;
-        public static final double CONE_OUT = 0.5;
-        public static final double CUBE_IN = 0.35;
-        public static final double CUBE_OUT = -1.00;
+        public static final double CONE_IN = 0.75;
+        public static final double CONE_OUT = -0.5;
+        public static final double SLOW_CONE_OUT = -0.2;
+        public static final double CUBE_IN = -0.7;
+        public static final double CUBE_OUT = 1.00;
+        public static final double SLOW_CUBE_OUT = 0.2;
+
     }
 
     public static final class WristConstants {
@@ -35,19 +38,21 @@ public final class Constants {
         public static final double MANUAL_WRIST_UP_SPEED = 0.25;
         public static final double MANUAL_WRIST_DOWN_SPEED = -0.25;
 
-        public static final double WRIST_SETPOINT_MAX = 0.7;
-        public static final double WRIST_SETPOINT_MIN = 0.217;
-        public static final double WRIST_PID_TOLERANCE = 0.00;
+        public static final double WRIST_SETPOINT_MAX = 0.88;
+        public static final double WRIST_SETPOINT_MIN = 0.22;
+        public static final double WRIST_PID_TOLERANCE = 0.05;
 
-        public static final double COMP = 0.70;
-        public static final double HIGH_CONE = 0.28;//0.37
-        public static final double MID_CONE = 0.22;
-        public static final double LOW_CONE = 0.22;
-        public static final double HIGH_CUBE = 0.44;
-        public static final double MID_CUBE = 0.70;
-        public static final double LOW_CUBE = 0.70;
-        public static final double CONE_INFEED = 0.22;
-        public static final double CUBE_INFEED = 0.32;
+        public static final double COMP = 125.00; //0.88
+        public static final double HIGH_CONE = 8.00; //0.41
+        public static final double MID_CONE = -30.00; //0.28
+        public static final double LOW_CONE = 125.00; //same as comp
+
+        public static final double HIGH_CUBE = 57.70; //0.54
+        public static final double MID_CUBE = 125.00; //same as comp
+        public static final double LOW_CUBE = 125.00; //same as comp
+
+        public static final double CONE_INFEED = -14.41; //-14.41
+        public static final double CUBE_INFEED = 14.23; //14.23
         
     }
 
@@ -63,6 +68,8 @@ public final class Constants {
 
         public static final int IN_CHANNEL = 3;
         public static final int OUT_CHANNEL = 4;
+        public static final int SLIDE_IN_CHANNEL = 6;
+        public static final int SLIDE_OUT_CHANNEL = 7;
     }
 
     public static final class Swerve {
@@ -71,6 +78,7 @@ public final class Constants {
 
 
         public static final COTSFalconSwerveConstants chosenModule =  
+        
             COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);
 
         /* Drivetrain Constants */
@@ -149,7 +157,7 @@ public final class Constants {
             public static final int driveMotorID = 5;
             public static final int angleMotorID = 3;
             public static final int canCoderID = 14;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(52.2167);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(49.658);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -159,7 +167,7 @@ public final class Constants {
             public static final int driveMotorID = 6;
             public static final int angleMotorID = 7;
             public static final int canCoderID = 11;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(117.6855);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(118.125);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -169,7 +177,7 @@ public final class Constants {
             public static final int driveMotorID = 2;
             public static final int angleMotorID = 1;
             public static final int canCoderID = 13;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(273.9765);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(82.6171875);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -179,7 +187,7 @@ public final class Constants {
             public static final int driveMotorID = 4;
             public static final int angleMotorID = 8;
             public static final int canCoderID = 12;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(349.6503);
+            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(187.64648437500003);
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }

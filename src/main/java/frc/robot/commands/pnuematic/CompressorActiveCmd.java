@@ -1,21 +1,21 @@
 package frc.robot.commands.pnuematic;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ArmSS;
+import frc.robot.subsystems.CompressorSS;
 
-public class ArmOutCommand extends CommandBase {
+public class CompressorActiveCmd extends CommandBase {
     
-    private ArmSS s_Arm;
+    private CompressorSS s_Compressor;
 
 
-    public ArmOutCommand(ArmSS Arm) {
-        this.s_Arm = Arm;
-        addRequirements(s_Arm);
+    public CompressorActiveCmd(CompressorSS Compressor) {
+        this.s_Compressor = Compressor;
+        addRequirements(s_Compressor);
     }
 
     @Override
     public void initialize() {
-        s_Arm.Out();
+        s_Compressor.Active();
     }
 
     @Override

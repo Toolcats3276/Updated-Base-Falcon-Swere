@@ -1,22 +1,24 @@
 package frc.robot.commands.compoundCommands.coneCommands;
 
 import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.commands.infeed.OutfeedConeCmd;
 import frc.robot.commands.pnuematic.*;
 import frc.robot.commands.wrist.*;
 import frc.robot.subsystems.ArmSS;
 import frc.robot.subsystems.WristSS;
+import frc.robot.subsystems.InfeedSS;
 
 import static frc.robot.Constants.WristConstants;
 
-public class ConeMidCommand extends SequentialCommandGroup{
+public class ConeLowCCmd extends SequentialCommandGroup{
 
     
-    public ConeMidCommand(WristSS s_Wrist, ArmSS s_Arm) {
+    public ConeLowCCmd(WristSS s_Wrist, ArmSS s_Arm, InfeedSS s_Infeed) {
 
         addCommands(
-                new ArmOutCommand(s_Arm),
-                new WaitCommand(0.5),
-                new PIDWristCommand(s_Wrist, WristConstants.MID_CONE)
+                new ArmInCmd(s_Arm),
+                new PIDWristCmd(s_Wrist, WristConstants.LOW_CONE),
+                new OutfeedConeCmd(s_Infeed)
                 );
         addRequirements(s_Wrist, s_Arm);
     }

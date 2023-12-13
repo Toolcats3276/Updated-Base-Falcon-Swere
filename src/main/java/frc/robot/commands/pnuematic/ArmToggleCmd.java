@@ -3,19 +3,19 @@ package frc.robot.commands.pnuematic;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSS;
 
-public class ArmInCommand extends CommandBase {
+public class ArmToggleCmd extends CommandBase {
     
     private ArmSS s_Arm;
 
 
-    public ArmInCommand(ArmSS Arm) {
+    public ArmToggleCmd(ArmSS Arm) {
         this.s_Arm = Arm;
         addRequirements(s_Arm);
     }
 
     @Override
     public void initialize() {
-        s_Arm.In();
+        s_Arm.Toggle();
     }
 
     @Override

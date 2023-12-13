@@ -9,9 +9,13 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
-public class ArmSS extends SubsystemBase{
+public class SlideSS extends SubsystemBase{
     
-    DoubleSolenoid armDoublePH = new DoubleSolenoid(PneumaticConstants.SOLENOID_ID, PneumaticsModuleType.REVPH, PneumaticConstants.OUT_CHANNEL, PneumaticConstants.IN_CHANNEL);
+    DoubleSolenoid slideDoublePH;
+
+    public SlideSS() {
+      slideDoublePH = new DoubleSolenoid(PneumaticConstants.SOLENOID_ID, PneumaticsModuleType.REVPH, PneumaticConstants.SLIDE_OUT_CHANNEL, PneumaticConstants.SLIDE_IN_CHANNEL);
+    }
 
     public enum Mode{
       In,
@@ -20,28 +24,28 @@ public class ArmSS extends SubsystemBase{
       Neutral;
     }
 
-    Mode ArmMode = Mode.In;
+    Mode SlideMode = Mode.In;
 
     @Override
     public void periodic(){
-        switch (ArmMode) {
+        switch (SlideMode) {
             case In:{
-            armDoublePH.set(Value.kReverse);}
+            slideDoublePH.set(Value.kReverse);}
             break;
 
             case Out:{
-            armDoublePH.set(Value.kForward);}
+            slideDoublePH.set(Value.kForward);}
             break;
 
             case Toggle:{
-            Value value = armDoublePH.get();
+            Value value = slideDoublePH.get();
 
             if (value == Value.kForward) {
-              armDoublePH.set(Value.kReverse);
+              slideDoublePH.set(Value.kReverse);
             } else if (value == Value.kReverse) {
-              armDoublePH.set(Value.kForward);
+              slideDoublePH.set(Value.kForward);
             }  
-            ArmMode = Mode.Neutral;
+            SlideMode = Mode.Neutral;
             break;
             }
             
@@ -54,15 +58,15 @@ public class ArmSS extends SubsystemBase{
 
 
     public void In(){
-      ArmMode = Mode.In;
+      SlideMode = Mode.In;
     }
 
     public void Out(){
-      ArmMode = Mode.Out;
+      SlideMode = Mode.Out;
     }
     
     public void Toggle(){
-      ArmMode = Mode.Toggle;
+      SlideMode = Mode.Toggle;
     }
 
 

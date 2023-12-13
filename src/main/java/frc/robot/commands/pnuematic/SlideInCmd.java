@@ -1,21 +1,21 @@
 package frc.robot.commands.pnuematic;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.CompressorSS;
+import frc.robot.subsystems.SlideSS;
 
-public class CompressorIdleCommand extends CommandBase {
+public class SlideInCmd extends CommandBase {
     
-    private CompressorSS s_Compressor;
+    private SlideSS s_Slide;
 
 
-    public CompressorIdleCommand(CompressorSS Compressor) {
-        this.s_Compressor = Compressor;
-        addRequirements(s_Compressor);
+    public SlideInCmd(SlideSS Slide) {
+        this.s_Slide = Slide;
+        addRequirements(s_Slide);
     }
 
     @Override
     public void initialize() {
-        s_Compressor.Idle();
+        s_Slide.In();
     }
 
     @Override

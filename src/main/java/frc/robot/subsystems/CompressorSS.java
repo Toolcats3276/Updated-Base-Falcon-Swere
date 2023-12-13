@@ -24,7 +24,7 @@ public class CompressorSS extends SubsystemBase{
       public void periodic(){
           switch (CompressorState) {
             case Idle:{
-            pcmCompressor.enableAnalog(0, PneumaticConstants.MAX_IDLE_PRESSURE);
+            pcmCompressor.disable();
             break;}
 
             case Active:{

@@ -3,19 +3,19 @@ package frc.robot.commands.wrist;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.WristSS;
 
-public class ManualDownCommand extends CommandBase {
+public class ManualStopCmd extends CommandBase {
     
     private WristSS s_Wrist;
 
 
-    public ManualDownCommand(WristSS Wrist) {
+    public ManualStopCmd(WristSS Wrist) {
         this.s_Wrist = Wrist;
         addRequirements(s_Wrist);
     }
 
     @Override
     public void initialize() {
-        s_Wrist.DownManual();
+        s_Wrist.StopManual();
     }
 
     @Override
