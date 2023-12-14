@@ -42,17 +42,18 @@ public final class Constants {
         public static final double WRIST_SETPOINT_MIN = 0.22;
         public static final double WRIST_PID_TOLERANCE = 0.05;
 
-        public static final double COMP = 125.00; //0.88
-        public static final double HIGH_CONE = 8.00; //0.41
-        public static final double MID_CONE = -30.00; //0.28
-        public static final double LOW_CONE = 125.00; //same as comp
+        public static final double ABSOLUTE_POS = 6;
+        public static final double COMP = ABSOLUTE_POS;
+        public static final double HIGH_CONE = ABSOLUTE_POS - 117;
+        public static final double MID_CONE = ABSOLUTE_POS - 155;
+        public static final double LOW_CONE = ABSOLUTE_POS;
 
-        public static final double HIGH_CUBE = 57.70; //0.54
-        public static final double MID_CUBE = 125.00; //same as comp
-        public static final double LOW_CUBE = 125.00; //same as comp
+        public static final double HIGH_CUBE = ABSOLUTE_POS - 67;
+        public static final double MID_CUBE = ABSOLUTE_POS;
+        public static final double LOW_CUBE = ABSOLUTE_POS;
 
-        public static final double CONE_INFEED = -14.41; //-14.41
-        public static final double CUBE_INFEED = 14.23; //14.23
+        public static final double CONE_INFEED = ABSOLUTE_POS - 139.41;
+        public static final double CUBE_INFEED = ABSOLUTE_POS - 110.77;
         
     }
 

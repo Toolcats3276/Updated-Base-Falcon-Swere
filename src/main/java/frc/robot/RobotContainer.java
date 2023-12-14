@@ -130,8 +130,10 @@ public class RobotContainer {
         //moves wrist and arms to position and sets motorspeed
         Comp.onTrue(new CompCCmd(s_Wrist, s_Arm, s_Infeed, s_Slide));
 
-        ConeIn.onTrue(new ConeInfeedCCmd(s_Wrist, s_Arm, s_Infeed, s_Slide, s_Sensor));
-        CubeIn.onTrue(new CubeInfeedCCmd(s_Wrist, s_Arm, s_Infeed, s_Slide, s_Sensor));
+        ConeIn.onTrue(new ConeInfeedCCmd(s_Wrist, s_Arm, s_Infeed, s_Slide, s_Sensor)
+            .until(() -> s_Sensor.isDebounced()));
+        CubeIn.onTrue(new CubeInfeedCCmd(s_Wrist, s_Arm, s_Infeed, s_Slide, s_Sensor)
+            .until(() -> s_Sensor.isDebounced()));
 
         HighCone.onTrue(new ConeHighCCmd(s_Wrist, s_Arm, s_Slide, s_Infeed));
         MidCone.onTrue(new ConeMidCCmd(s_Wrist, s_Arm, s_Infeed));
